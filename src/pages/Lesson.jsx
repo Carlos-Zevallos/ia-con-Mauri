@@ -36,6 +36,24 @@ function pauseLessonTracks() {
   });
 }
 
+function hashSeed(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619);
+  return Math.abs(h) || 1;
+}
+
+/** Mezcla estable por lección/paso: la correcta no se queda siempre en el mismo sitio. */
+function shuffleList(list, seedStr) {
+  const items = (list || []).map((value, source) => ({ value, source }));
+  let s = hashSeed(seedStr);
+  for (let i = items.length - 1; i > 0; i--) {
+    s = (s * 16807) % 2147483647;
+    const j = s % (i + 1);
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+}
+
 function Blocks({ blocks, fallbackTitle, navigate, guideId, onPlayTrack }) {
   if (!blocks?.length) return null;
   return blocks.map((block, i) => {
@@ -392,7 +410,16 @@ export default function Lesson() {
   const fillSolved = step.type === "fill" && (result?.ok || fillRevealed);
   const fillWrong = step.type === "fill" && checked && !fillSolved;
   const canContinue = !needsCheck || (step.type === "fill" ? fillSolved : checked);
-  const bank = step.bank || step.answers || [];
+  const mixSeed = `${guide.id}:${unitId}:${lesson.id}:${stepIndex}`;
+  const quizChoices = step.options?.length ? shuffleList(step.options, `${mixSeed}:quiz`) : [];
+  const quizAnswerAt = quizChoices.findIndex((c) => c.source === step.answer);
+  const multiAnswerAt = new Set(
+    (Array.isArray(step.answers) ? step.answers : [])
+      .filter((i) => typeof i === "number")
+      .map((src) => quizChoices.findIndex((c) => c.source === src))
+      .filter((i) => i >= 0)
+  );
+  const bank = shuffleList(step.bank || step.answers || [], `${mixSeed}:bank`).map((c) => c.value);
   const parts = step.type === "fill" ? (step.template || "").split("{blank}") : [];
 
   function goMap(mark) {
@@ -441,7 +468,7 @@ export default function Lesson() {
   }
 
   function checkQuiz() {
-    const ok = picked === step.answer;
+    const ok = picked === quizAnswerAt;
     setChecked(true);
     setResult({
       ok,
@@ -454,7 +481,7 @@ export default function Lesson() {
   }
 
   function checkMulti() {
-    const want = step.answers || [];
+    const want = [...multiAnswerAt];
     const missedIdx = want.filter((i) => !pickedMany.includes(i));
     const extraIdx = pickedMany.filter((i) => !want.includes(i));
     const ok = missedIdx.length === 0 && extraIdx.length === 0;
@@ -462,9 +489,9 @@ export default function Lesson() {
     setResult({
       ok,
       title: ok ? "Respuesta correcta" : missedIdx.length ? "Te faltó marcar algunas" : "Hay opciones de más",
-      missed: missedIdx.map((i) => step.options[i]),
-      extras: extraIdx.map((i) => step.options[i]),
-      answers: want.map((i) => step.options[i]),
+      missed: missedIdx.map((i) => quizChoices[i]?.value),
+      extras: extraIdx.map((i) => quizChoices[i]?.value),
+      answers: want.map((i) => quizChoices[i]?.value),
       explain: step.explain,
     });
   }
@@ -664,14 +691,18 @@ export default function Lesson() {
               <p className="quiz-q">{step.question}</p>
             ) : null}
             <div className={step.pair ? "quiz-pair" : "quiz-stack"}>
-              {step.options.map((opt, i) => {
+              {quizChoices.map((choice, i) => {
                 let cls = "quiz-option";
                 if (picked === i) cls += " selected";
-                if (checked && i === step.answer) cls += " correct";
-                if (checked && picked === i && i !== step.answer) cls += " wrong";
+                if (checked && i === quizAnswerAt) cls += " correct";
+                if (checked && picked === i && i !== quizAnswerAt) cls += " wrong";
                 return (
-                  <button key={opt} className={cls} onClick={() => !checked && setPicked(i)}>
-                    {opt}
+                  <button
+                    key={`${choice.source}:${choice.value}`}
+                    className={cls}
+                    onClick={() => !checked && setPicked(i)}
+                  >
+                    {choice.value}
                   </button>
                 );
               })}
@@ -684,16 +715,17 @@ export default function Lesson() {
           <div className="quiz-card">
             <p className="quiz-q">{step.question}</p>
             {step.hint ? <p className="muted quiz-hint">{step.hint}</p> : null}
-            {step.options.map((opt, i) => {
+            {quizChoices.map((choice, i) => {
               let cls = "quiz-option multi";
+              const isRight = multiAnswerAt.has(i);
               if (pickedMany.includes(i)) cls += " selected";
-              if (checked && step.answers.includes(i)) cls += " correct";
-              if (checked && pickedMany.includes(i) && !step.answers.includes(i)) cls += " wrong";
-              if (checked && step.answers.includes(i) && !pickedMany.includes(i)) cls += " missed";
+              if (checked && isRight) cls += " correct";
+              if (checked && pickedMany.includes(i) && !isRight) cls += " wrong";
+              if (checked && isRight && !pickedMany.includes(i)) cls += " missed";
               return (
-                <button key={opt} className={cls} onClick={() => toggleMany(i)}>
+                <button key={`${choice.source}:${choice.value}`} className={cls} onClick={() => toggleMany(i)}>
                   <span className={`tick${pickedMany.includes(i) ? " on" : ""}`} />
-                  {opt}
+                  {choice.value}
                 </button>
               );
             })}
