@@ -9,6 +9,8 @@ const COURSE_META = {
   gemini: { hours: 4 },
   chatgpt: { hours: 6 },
   claude: { hours: 5 },
+  "claude-excel": { hours: 3 },
+  "claude-fondo": { hours: 5 },
   grok: { hours: 3 },
   midjourney: { hours: 6 },
   dalle: { hours: 3 },
@@ -21,6 +23,7 @@ const COURSE_META = {
   nano: { hours: 2 },
   canva: { hours: 3 },
   kling: { hours: 4 },
+  omni: { hours: 4 },
 };
 
 const MONTHS = [

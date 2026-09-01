@@ -1,4 +1,5 @@
 import AiIcon from "./AiIcon.jsx";
+import { iconIdForGuide } from "../lib/certs.js";
 
 const art = {
   chatgpt: { bg: ["#34d399", "#10a37f"], d: "M18 62c18-22 38-18 52-8 12 9 28 6 38-8 8-12 4-28-10-34-16-8-22 8-38 6S32 4 18 16 0 84 18 62Z" },
@@ -14,6 +15,9 @@ const art = {
   midjourney: { bg: ["#475569", "#1e293b"], d: "M12 72 54 16l50 56H12Z" },
   canva: { bg: ["#2dd4bf", "#14b8a6"], d: "M18 22h72v16H18zm0 28h48v28H18z" },
   kling: { bg: ["#374151", "#111827"], d: "M20 24h68v12H20zm0 22h68v8H20zm0 18h44v8H20z" },
+  omni: { bg: ["#fb7185", "#ea580c"], d: "M20 24h68v12H20zm0 22h68v8H20zm0 18h44v8H20z" },
+  "claude-excel": { bg: ["#34d399", "#059669"], d: "M12 48c8-28 40-36 58-18 10 10 28 8 36-4 6 18 4 40-14 50-22 12-40-6-56 0S4 76 12 48Z" },
+  "claude-fondo": { bg: ["#b45309", "#7c2d12"], d: "M12 48c8-28 40-36 58-18 10 10 28 8 36-4 6 18 4 40-14 50-22 12-40-6-56 0S4 76 12 48Z" },
   lovable: { bg: ["#fb7185", "#e11d48"], d: "M28 18h52v72H28zM40 30h28v12H40z" },
   diseno: { bg: ["#818cf8", "#5b5fff"], d: "M18 22h72v16H18zm0 28h48v28H18z" },
 };
@@ -32,13 +36,17 @@ const photos = {
   midjourney: "/covers/cover-midjourney.png",
   canva: "/covers/cover-canva.png",
   kling: "/covers/cover-kling.png",
+  omni: "/covers/cover-omni.png",
+  "claude-excel": "/covers/cover-claude-excel.png",
+  "claude-fondo": "/covers/cover-claude-fondo.png",
   lovable: "/covers/cover-lovable.png",
   diseno: "/covers/cover-diseno.png",
 };
 
 export default function CoverArt({ id, size = "md" }) {
-  const spec = art[id] || art.chatgpt;
-  const photo = photos[id];
+  const resolved = iconIdForGuide(id);
+  const spec = art[id] || art[resolved] || art.chatgpt;
+  const photo = photos[id] || photos[resolved];
   const h = size === "lg" ? 160 : size === "sm" ? 92 : 120;
   return (
     <div
@@ -55,7 +63,7 @@ export default function CoverArt({ id, size = "md" }) {
         </svg>
       )}
       <div className="cover-art-icon">
-        <AiIcon id={id} size={size === "lg" ? 40 : size === "sm" ? 28 : 32} />
+        <AiIcon id={resolved} size={size === "lg" ? 40 : size === "sm" ? 28 : 32} />
       </div>
     </div>
   );

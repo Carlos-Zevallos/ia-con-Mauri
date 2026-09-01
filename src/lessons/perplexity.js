@@ -1,26 +1,22 @@
-import { track } from "./kit.js";
+import { coursivFlow } from "./kit.js";
 
-const conoce = track({
+const img = (file) => ({ kind: "image", src: `/lessons/perplexity/${file}?v=7` });
+const B = "Perplexity";
+const q = (n) => `/lessons/perplexity/q${n}.png?v=7`;
+
+const conoce = coursivFlow({
   id: "conoce",
   title: "Perplexity no es Google ni ChatGPT",
-  blurb: "Busca, resume y apunta a fuentes. Tú abres el enlace.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "Busca, resume y apunta a fuentes. Tú abres el enlace",
+  brand: B,
+  hero: img("conoce.png"),
+  ui: img("conoce-b.png"),
+  problemImg: q(1),
+  open: [
     "Google te tira diez anuncios y un wiki. ChatGPT te suelta un párrafo fluido que a veces no tiene de dónde. Perplexity se sienta en el medio: busca en la web, te arma un recorte y te enseña de qué páginas salió.",
-    "No es un oráculo. Es un rastreador con cita. Si te quedas en el recorte y no abres la fuente, estás leyendo un resumen de segunda mano. En esta ruta armas preguntas que se pueden checar y briefs que el equipo sí usa.",
+    "No es un oráculo. Es un rastreador con cita. Si te quedas en el recorte y no abres la fuente, estás leyendo un resumen de segunda mano. En esta ruta, como en Coursiv, armas preguntas que se pueden checar y briefs que el equipo sí usa.",
   ],
-  body: {
-    title: "Tres oficios distintos",
-    text: "Google rankea páginas: tú cazas. ChatGPT completa texto: inventa si no busca. Perplexity siempre arranca de una búsqueda y te deja las pistas. Elige según el oficio, no según el logo de moda.",
-  },
-  bullets: [
-    "Google: enlaces, ads, tú haces el recorte",
-    "ChatGPT: borrador rápido; sin búsqueda, habla de memoria",
-    "Perplexity: síntesis + fuentes numeradas",
-    "Tú: abres, contrastas y decides qué se queda",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Qué hace Perplexity que Google y ChatGPT no hacen igual?",
     options: [
       "Sustituye abrir cualquier página",
@@ -30,6 +26,47 @@ const conoce = track({
     ],
     answer: 1,
     explain: "El valor es el recorte con pistas. Validar sigue siendo tuyo.",
+  },
+  meetTitle: "Tres oficios distintos",
+  meetText:
+    "Google rankea páginas: tú cazas. ChatGPT completa texto: inventa si no busca. Perplexity siempre arranca de una búsqueda y te deja las pistas. Elige según el oficio, no según el logo de moda.",
+  meetList: [
+    "Google: enlaces, ads, tú haces el recorte",
+    "ChatGPT: borrador rápido; sin búsqueda, habla de memoria",
+    "Perplexity: síntesis + fuentes numeradas",
+    "Tú: abres, contrastas y decides qué se queda",
+  ],
+  pair: {
+    title: "Revisión de oficios",
+    card: {
+      lead: "Tomando en cuenta lo anterior, decide si este pedido usa Perplexity en su oficio.",
+      prompt: "Busca tres fuentes sobre el costo de un dominio .mx en 2026. Tabla corta. Yo abro dos enlaces.",
+    },
+    question: "¿Perplexity podría trabajar con este prompt?",
+    options: ["Sí: busca, recorta y deja pistas", "No: esto es un mail, no una pesquisa"],
+    answer: 0,
+    explain: "Hay búsqueda, año y un clic tuyo al final. El mail se va a ChatGPT.",
+  },
+  discovery:
+    "Perplexity acerca. Google caza. ChatGPT redacta. Tú eliges el oficio. El clic a la fuente no es opcional.",
+  exampleTitle: "Cómo funciona en la práctica",
+  exampleText:
+    "Necesitas un precio de hoy, no un ensayo. Perplexity arma el recorte. Tú abres dos fuentes. El mail del cliente se escribe en otra mesa.",
+  exampleList: [
+    "Google: entrar al registrar",
+    "ChatGPT: reescribir el mail",
+    "Perplexity: tres fuentes sobre el mismo dato",
+  ],
+  exampleImg: img("conoce-b.png"),
+  multi: {
+    question: "Para consolidar, ¿qué hace útil Perplexity?",
+    options: [
+      "Buscar y dejar fuentes numeradas",
+      "Recortar, no sustituir el clic",
+      "No usarlo para un mail ni para cazar una URL concreta",
+    ],
+    answers: [0, 1, 2],
+    explain: "Tres oficios. Mezclarlos ensucia el brief.",
   },
   practice: {
     title: "Elige la mesa",
@@ -45,53 +82,69 @@ const conoce = track({
         { title: "Perplexity", text: "Tres fuentes sobre el mismo dato. Tú abres dos." },
       ],
     },
-    review: {
-      question: "¿Perplexity reemplaza abrir el enlace?",
-      options: ["Sí, el recorte basta", "No: el recorte acerca, tú validas", "Solo los fines de semana"],
-      answer: 1,
-      explain: "Sin el clic, estás leyendo un recorte. Contrastar es el oficio.",
-    },
   },
-  close: {
-    tip: "Perplexity acerca. Google caza. ChatGPT redacta. Tú eliges el oficio.",
-    items: [
-      "No uses Perplexity para un mail",
-      "No uses ChatGPT a ciegas para un precio de hoy",
-      "El clic a la fuente no es opcional",
-    ],
+  review: {
+    question: "Después de ver la respuesta, ¿Perplexity reemplaza abrir el enlace?",
+    options: ["Sí, el recorte basta", "No: el recorte acerca, tú validas", "Solo los fines de semana"],
+    answer: 1,
+    explain: "Sin el clic, estás leyendo un recorte. Contrastar es el oficio.",
   },
+  discovery2:
+    "No uses Perplexity para un mail. No uses ChatGPT a ciegas para un precio de hoy. El clic a la fuente no es opcional.",
+  closeItems: [
+    "No uses Perplexity para un mail",
+    "No uses ChatGPT a ciegas para un precio de hoy",
+    "El clic a la fuente no es opcional",
+  ],
 });
 
-const fuentes = track({
+const fuentes = coursivFlow({
   id: "fuentes",
   title: "No te quedes con el resumen",
-  blurb: "Las citas son pistas. La fuente la abres tú.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "Las citas son pistas. La fuente la abres tú",
+  brand: B,
+  hero: img("fuentes.png"),
+  ui: img("fuentes-b.png"),
+  problemImg: q(2),
+  open: [
     "Perplexity numera las fuentes al costado. Esa cifra no es un sello de verdad: es un atajo. Un blog sin fecha, un comunicado de la marca y un paper no pesan igual.",
     "Si no abres el enlace, estás leyendo un recorte. Contrastar es parte del oficio, no un adorno para quedar bien.",
   ],
-  body: {
-    title: "Cómo leer el panel de fuentes",
-    text: "Mira quién firma, cuándo se publicó y si el medio tiene incentivo. Pide fuentes. Ábrelas. Si una no tiene fecha, es pista, no hecho.",
+  quiz1: {
+    question: "¿Qué haces si cita un blog sin fecha?",
+    options: ["Lo tomas como ley", "Abres otra fuente y buscas fecha", "Lo retuiteas", "Le pides un poema"],
+    answer: 1,
+    explain: "Sin fecha, es pista, no hecho. Otra fuente, o lo marcas como hueco.",
   },
-  bullets: [
+  meetTitle: "Cómo leer el panel de fuentes",
+  meetText:
+    "Mira quién firma, cuándo se publicó y si el medio tiene incentivo. Pide fuentes. Ábrelas. Si una no tiene fecha, es pista, no hecho.",
+  meetList: [
     "Quién escribe y para quién cobra",
     "Fecha a la vista; sin fecha, pista",
     "Dos fuentes mínimo, no la más dramática",
     "El recorte de Perplexity no es la página",
   ],
-  quiz: {
-    question: "¿Qué haces si cita un blog sin fecha?",
-    options: [
-      "Lo tomas como ley",
-      "Abres otra fuente y buscas fecha",
-      "Lo retuiteas",
-      "Le pides un poema",
-    ],
-    answer: 1,
-    explain: "Sin fecha, es pista, no hecho. Otra fuente, o lo marcas como hueco.",
+  pair: {
+    card: {
+      lead: "¿Este pedido obliga a contrastar o se queda en el recorte?",
+      prompt: "Busca con fecha y lugar. Después abre 2 fuentes y anota quién firma.",
+    },
+    question: "¿Este prompt pide el oficio de las fuentes?",
+    options: ["Sí: recortes y clic", "No: el recorte basta"],
+    answer: 0,
+    explain: "Fecha, lugar y dos clics. El recorte solo no valida.",
+  },
+  discovery: "Pregunta con fecha y lugar, y abre al menos dos fuentes.",
+  exampleTitle: "Dos URLs, un hueco",
+  exampleText: "Una nota de 2026 con medio local. Un blog sin fecha. La segunda no entra al brief hasta que aparezca otra.",
+  exampleList: ["Fecha en la pregunta", "Lugar", "Dos fuentes abiertas"],
+  exampleImg: img("fuentes-b.png"),
+  multi: {
+    question: "¿Qué caza un recorte usable?",
+    options: ["Quién firma y cuándo", "Dos fuentes, no la más dramática", "Marcar sin fecha como pista"],
+    answers: [0, 1, 2],
+    explain: "La herramienta acelera. Tú contrastas.",
   },
   practice: {
     title: "Completa la búsqueda",
@@ -106,44 +159,63 @@ const fuentes = track({
         { title: "Fuente 2", text: "Blog sin fecha. Fuera del brief hasta que aparezca otra." },
       ],
     },
-    review: {
-      question: "¿Quién valida el dato?",
-      options: ["Perplexity", "Tú, abriendo el enlace", "El becario"],
-      answer: 1,
-      explain: "La herramienta acelera. Tú contrastas.",
-    },
   },
-  close: {
-    tip: "pregunta con fecha y lugar, y abre al menos dos fuentes.",
-    items: ["Recortes en la pregunta", "Enlaces abiertos", "Choques a la vista"],
+  review: {
+    question: "¿Quién valida el dato?",
+    options: ["Perplexity", "Tú, abriendo el enlace", "El becario"],
+    answer: 1,
+    explain: "La herramienta acelera. Tú contrastas.",
   },
+  discovery2: "Recortes en la pregunta. Enlaces abiertos. Choques a la vista.",
+  closeItems: ["Recortes en la pregunta", "Enlaces abiertos", "Choques a la vista"],
 });
 
-const acotar = track({
+const acotar = coursivFlow({
   id: "acotar",
   title: "Acota país y año",
-  blurb: "Si no recortas, te da el mundo entero.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "Si no recortas, te da el mundo entero",
+  brand: B,
+  hero: img("acotar.png"),
+  ui: img("acotar-b.png"),
+  problemImg: q(3),
+  open: [
     "“Mejores prácticas de marketing” es infinito. “México, 2026, pymes de comida” se puede checar. Un recorte de más vale más que un párrafo de menos.",
     "Perplexity no adivina tu mercado. Si omites el país, mezcla California con Guadalajara. Si omites el año, te recicla un ensayo de 2019.",
   ],
-  body: {
-    title: "Tres recortes y un formato",
-    text: "Tema, geografía, tiempo. Luego el entregable: tabla, no ensayo. “Sé exhaustivo” no recorta: infla.",
+  quiz1: {
+    question: "¿Qué recorta el pozo infinito?",
+    options: ["“Dime todo”", "México + 2026 + pymes", "Pedir que sea exhaustivo"],
+    answer: 1,
+    explain: "Tres recortes. El mundo no cabe en un recorte.",
   },
-  bullets: [
+  meetTitle: "Tres recortes y un formato",
+  meetText: "Tema, geografía, tiempo. Luego el entregable: tabla, no ensayo. “Sé exhaustivo” no recorta: infla.",
+  meetList: [
     "Tema concreto, no “todo sobre…”",
     "País o ciudad",
     "Año o rango (2025–2026)",
     "Formato: tabla, 5 viñetas, no un paper",
   ],
-  quiz: {
-    question: "¿Qué recorta el pozo infinito?",
-    options: ["“Dime todo”", "México + 2026 + pymes", "Pedir que sea exhaustivo"],
-    answer: 1,
-    explain: "Tres recortes. El mundo no cabe en un recorte.",
+  pair: {
+    card: {
+      lead: "¿Este pedido recorta o pide el planeta?",
+      prompt: "Busca en México, año 2026, para pymes de comida. Tabla corta, con fuente.",
+    },
+    question: "¿Este prompt acota el mercado?",
+    options: ["Sí: país, año y audiencia", "No: falta “sé exhaustivo”"],
+    answer: 0,
+    explain: "Tres recortes. El ensayo global se queda fuera.",
+  },
+  discovery: "Si no recortas, Perplexity te da el mundo entero.",
+  exampleTitle: "Pymes de comida, no el planeta",
+  exampleText: "Tabla de 4 filas. Nada de “a nivel global”. Cada fila con enlace. Tú abres dos.",
+  exampleList: ["México", "2026", "Pymes de comida", "Tabla, no ensayo"],
+  exampleImg: img("acotar-b.png"),
+  multi: {
+    question: "¿Qué recorta una pesquisa usable?",
+    options: ["País o ciudad", "Año visible", "Un formato (tabla, no paper)"],
+    answers: [0, 1, 2],
+    explain: "El dato vive. El ensayo de 2019 no.",
   },
   practice: {
     title: "Completa el recorte",
@@ -158,40 +230,30 @@ const acotar = track({
         { title: "Qué falta", text: "Tú abres dos enlaces. El recorte no paga el anuncio." },
       ],
     },
-    review: {
-      question: "¿Por qué el año en la pregunta?",
-      options: ["Por moda", "Porque 2019 no sirve para un precio de 2026", "Por SEO"],
-      answer: 1,
-      explain: "El dato vive. El ensayo de 2019 no.",
-    },
   },
-  close: {
-    tip: "si no recortas, Perplexity te da el mundo entero.",
-    items: ["País", "Año", "Para quién"],
+  review: {
+    question: "¿Por qué el año en la pregunta?",
+    options: ["Por moda", "Porque 2019 no sirve para un precio de 2026", "Por SEO"],
+    answer: 1,
+    explain: "El dato vive. El ensayo de 2019 no.",
   },
+  discovery2: "País. Año. Para quién. Tres recortes antes de buscar.",
+  closeItems: ["País", "Año", "Para quién"],
 });
 
-const colecciones = track({
+const colecciones = coursivFlow({
   id: "colecciones",
   title: "Colecciones y enfoque",
-  blurb: "El cajón del caso y el tipo de fuente. No el mismo buscador para todo.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "El cajón del caso y el tipo de fuente. No el mismo buscador para todo",
+  brand: B,
+  hero: img("colecciones.png"),
+  ui: img("colecciones-b.png"),
+  problemImg: q(4),
+  open: [
     "Si cada pesquisa del cliente vive en un hilo suelto, la próxima semana no encuentras nada. Una colección en Perplexity es el cajón: mismo caso, mismos hilos, mismo recorte de mercado.",
     "El enfoque cambia de dónde jala: Académico para papers, Reddit para quejas reales, YouTube para demos, Todo para el recorte general. Pedir precio de tacos en Académico es pedir un paper de antropología.",
   ],
-  body: {
-    title: "Cajón y filtro, no dos búsquedas iguales",
-    text: "Colección = el caso se queda. Enfoque = de qué tipo de página tira. Cambia el enfoque cuando cambia el tipo de evidencia, no por aburrimiento.",
-  },
-  bullets: [
-    "Colección: un cliente o un proyecto, no 40 temas",
-    "Académico: papers y revistas, no un review de taquería",
-    "Reddit: experiencia vivida; sesgo a la vista",
-    "Todo: recorte amplio; luego tú filtras",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Cuándo cambias el enfoque?",
     options: [
       "Cada renglón, por costumbre",
@@ -201,6 +263,36 @@ const colecciones = track({
     ],
     answer: 1,
     explain: "Papers, quejas o recorte general no salen del mismo cajón.",
+  },
+  meetTitle: "Cajón y filtro, no dos búsquedas iguales",
+  meetText:
+    "Colección = el caso se queda. Enfoque = de qué tipo de página tira. Cambia el enfoque cuando cambia el tipo de evidencia, no por aburrimiento.",
+  meetList: [
+    "Colección: un cliente o un proyecto, no 40 temas",
+    "Académico: papers y revistas, no un review de taquería",
+    "Reddit: experiencia vivida; sesgo a la vista",
+    "Todo: recorte amplio; luego tú filtras",
+  ],
+  pair: {
+    card: {
+      lead: "¿Este pedido usa cajón y filtro?",
+      prompt: "Guarda esto en la colección cliente taquería Roma. Usa enfoque Reddit y pide 3 quejas repetidas con fuente.",
+    },
+    question: "¿Este prompt usa colección y enfoque bien?",
+    options: ["Sí: un caso y el filtro de evidencia", "No: debería ir todo a Académico"],
+    answer: 0,
+    explain: "Quieres voz de cliente, no un paper. Reddit aplica. Académico no.",
+  },
+  discovery: "Colección por caso, enfoque según la evidencia. No un hilo eterno.",
+  exampleTitle: "La taquería de la Roma",
+  exampleText: "Tres hilos de Reddit con la misma queja de espera. Académico no aplicaba. Abre los hilos y copia citas.",
+  exampleList: ["Cajón: un cliente", "Filtro: Reddit", "Entregable: 3 quejas"],
+  exampleImg: img("colecciones-b.png"),
+  multi: {
+    question: "¿Qué sostiene una pesquisa repetible?",
+    options: ["Un cajón por caso", "El filtro según el tipo de evidencia", "Académico no es para todo"],
+    answers: [0, 1, 2],
+    explain: "El cajón mezclado contamina el siguiente brief.",
   },
   practice: {
     title: "Arma el cajón",
@@ -215,40 +307,30 @@ const colecciones = track({
         { title: "Siguiente", text: "Abre los tres hilos. Copia citas, no el recorte entero." },
       ],
     },
-    review: {
-      question: "¿Una colección para todos los clientes?",
-      options: ["Sí, más simple", "No: un cajón por caso, o se mezcla el recorte", "Da igual"],
-      answer: 1,
-      explain: "El cajón mezclado contamina el siguiente brief.",
-    },
   },
-  close: {
-    tip: "colección por caso, enfoque según la evidencia. No un hilo eterno.",
-    items: ["Un cajón, un cliente", "Cambia el filtro con el oficio", "Académico no es para todo"],
+  review: {
+    question: "¿Una colección para todos los clientes?",
+    options: ["Sí, más simple", "No: un cajón por caso, o se mezcla el recorte", "Da igual"],
+    answer: 1,
+    explain: "El cajón mezclado contamina el siguiente brief.",
   },
+  discovery2: "Un cajón, un cliente. Cambia el filtro con el oficio. Académico no es para todo.",
+  closeItems: ["Un cajón, un cliente", "Cambia el filtro con el oficio", "Académico no es para todo"],
 });
 
-const contrastar = track({
+const contrastar = coursivFlow({
   id: "contrastar",
   title: "Dos fuentes, un criterio",
-  blurb: "Si se contradicen, eso es el hallazgo. No elijas la más dramática.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "Si se contradicen, eso es el hallazgo. No elijas la más dramática",
+  brand: B,
+  hero: img("contrastar.png"),
+  ui: img("contrastar-b.png"),
+  problemImg: q(1),
+  open: [
     "Perplexity te puede citar un medio que dice “el mercado crece 40%” y otro que dice “se estanca”. Elegir el titular más fuerte es periodismo de grupo de WhatsApp.",
     "Contrastar es anotar el choque, la fecha de cada uno y qué incentivo tiene quien publica. El brief del equipo necesita el desacuerdo a la vista, no un promedio mágico.",
   ],
-  body: {
-    title: "Un criterio, no un empate técnico",
-    text: "Antes de buscar, di qué te haría creer el dato: muestra, año, organismo. Si las dos fuentes fallan el criterio, el hallazgo es “no hay cifra usable”.",
-  },
-  bullets: [
-    "Criterio primero (quién, cuándo, muestra)",
-    "Dos fuentes, no la más viral",
-    "El choque se anota, no se esconde",
-    "Sin criterio, gana el titular más largo",
-  ],
-  quiz: {
+  quiz1: {
     question: "Si dos fuentes se contradicen, ¿qué haces?",
     options: [
       "Te quedas con la más dramática",
@@ -258,6 +340,37 @@ const contrastar = track({
     ],
     answer: 1,
     explain: "El desacuerdo es información. Promediar a escondidas miente.",
+  },
+  meetTitle: "Un criterio, no un empate técnico",
+  meetText:
+    "Antes de buscar, di qué te haría creer el dato: muestra, año, organismo. Si las dos fuentes fallan el criterio, el hallazgo es “no hay cifra usable”.",
+  meetList: [
+    "Criterio primero (quién, cuándo, muestra)",
+    "Dos fuentes, no la más viral",
+    "El choque se anota, no se esconde",
+    "Sin criterio, gana el titular más largo",
+  ],
+  pair: {
+    card: {
+      lead: "¿Este pedido deja el choque a la vista?",
+      prompt: "Compara fuente A y fuente B. Si chocan, anota fecha e incentivo y no promedies.",
+    },
+    question: "¿Este prompt pide contrastar de verdad?",
+    options: ["Sí: dos fuentes y el choque anotado", "No: debería pedir que elija la verdad"],
+    answer: 0,
+    explain: "Cita pistas. El criterio es tuyo. El promedio mágico miente.",
+  },
+  discovery: "Si chocan, anótalo. Contrastar es el oficio, no el adorno.",
+  exampleTitle: "40% vs estancado",
+  exampleText:
+    "A: consultora 2024 que vende el estudio. B: INEGI 2025. Organismo público + año reciente gana a un PDF de venta. No hay promedio.",
+  exampleList: ["Criterio antes de buscar", "Dos fuentes", "Choque en el brief"],
+  exampleImg: img("contrastar-b.png"),
+  multi: {
+    question: "¿Qué va en un contraste usable?",
+    options: ["Criterio primero", "Dos fuentes, no la más viral", "El choque anotado, no un promedio"],
+    answers: [0, 1, 2],
+    explain: "El drama no puntúa.",
   },
   practice: {
     title: "Contrasta el dato",
@@ -272,40 +385,30 @@ const contrastar = track({
         { title: "Brief", text: "“No hay cifra única. Usar rango y citar ambas.”" },
       ],
     },
-    review: {
-      question: "¿Perplexity decide cuál fuente es verdad?",
-      options: ["Sí, por eso cita", "No: tú aplicas el criterio y dejas el choque", "Solo en Pro"],
-      answer: 1,
-      explain: "Cita pistas. El criterio es tuyo.",
-    },
   },
-  close: {
-    tip: "si chocan, anótalo. Contrastar es el oficio, no el adorno.",
-    items: ["Criterio antes de buscar", "Dos fuentes mínimo", "El drama no puntúa"],
+  review: {
+    question: "¿Perplexity decide cuál fuente es verdad?",
+    options: ["Sí, por eso cita", "No: tú aplicas el criterio y dejas el choque", "Solo en Pro"],
+    answer: 1,
+    explain: "Cita pistas. El criterio es tuyo.",
   },
+  discovery2: "Criterio antes de buscar. Dos fuentes mínimo. El drama no puntúa.",
+  closeItems: ["Criterio antes de buscar", "Dos fuentes mínimo", "El drama no puntúa"],
 });
 
-const mercado = track({
+const mercado = coursivFlow({
   id: "mercado",
   title: "Una pesquisa de mercado que se puede usar",
-  blurb: "Competidores, precio y hueco. Tabla, no un ensayo de 12 páginas.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "Competidores, precio y hueco. Tabla, no un ensayo de 12 páginas",
+  brand: B,
+  hero: img("mercado.png"),
+  ui: img("mercado-b.png"),
+  problemImg: q(2),
+  open: [
     "“Analiza el mercado” le da permiso de escribir un folleto. Lo que el equipo necesita cabe en una tabla: quién vende, a qué precio, a quién, y qué hueco ves tú.",
     "País y año otra vez. Un ticket de 2022 en dólares no arma tu lista de precios en pesos este mes.",
   ],
-  body: {
-    title: "La tabla manda",
-    text: "Tres competidores, un rango de precio, un público, un hueco. Cada celda con fuente. Lo que no tenga enlace va como hipótesis.",
-  },
-  bullets: [
-    "Categoría + país + año",
-    "3 competidores, no 30",
-    "Precio o rango, con fecha",
-    "Hueco: lo que nadie cubre (hipótesis tuya)",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Qué entregable sirve para decidir precio?",
     options: [
       "Un ensayo de “tendencias globales”",
@@ -315,6 +418,36 @@ const mercado = track({
     ],
     answer: 1,
     explain: "Se puede checar. El ensayo no se cobra ni se publica.",
+  },
+  meetTitle: "La tabla manda",
+  meetText:
+    "Tres competidores, un rango de precio, un público, un hueco. Cada celda con fuente. Lo que no tenga enlace va como hipótesis.",
+  meetList: [
+    "Categoría + país + año",
+    "3 competidores, no 30",
+    "Precio o rango, con fecha",
+    "Hueco: lo que nadie cubre (hipótesis tuya)",
+  ],
+  pair: {
+    card: {
+      lead: "¿Este pedido cabe en una tabla o pide un folleto?",
+      prompt: "En México, 2026: 3 competidores de café de especialidad para oficina, precio y fuente. Tabla.",
+    },
+    question: "¿Este prompt pide un recorte usable?",
+    options: ["Sí: mercado recortado y tabla", "No: falta “analiza el mercado”"],
+    answer: 0,
+    explain: "Se puede checar. El ensayo de tendencias se queda fuera.",
+  },
+  discovery: "Tabla de 3, con precio y fuente. El ensayo de tendencias se queda fuera.",
+  exampleTitle: "Café de oficina, México 2026",
+  exampleText: "Tres filas. Precios en pesos. El tercero sin ticket: hipótesis. El hueco lo firmas tú.",
+  exampleList: ["México + 2026", "3 competidores", "Hueco: recarga semanal en zona industrial"],
+  exampleImg: img("mercado-b.png"),
+  multi: {
+    question: "¿Qué va en una pesquisa de mercado usable?",
+    options: ["Recorte de país y año", "Celdas con enlace", "El hueco lo firmas tú"],
+    answers: [0, 1, 2],
+    explain: "La herramienta junta pistas. La apuesta es tuya.",
   },
   practice: {
     title: "Pide la tabla",
@@ -329,40 +462,30 @@ const mercado = track({
         { title: "Hueco", text: "Nadie vende recarga semanal en zona industrial. Hipótesis tuya, no de Perplexity." },
       ],
     },
-    review: {
-      question: "¿El hueco lo inventa Perplexity?",
-      options: ["Sí, es el experto", "No: lo propones tú con los huecos de la tabla", "El becario"],
-      answer: 1,
-      explain: "La herramienta junta pistas. La apuesta es tuya.",
-    },
   },
-  close: {
-    tip: "tabla de 3, con precio y fuente. El ensayo de tendencias se queda fuera.",
-    items: ["Recorta mercado", "Celdas con enlace", "El hueco lo firmas tú"],
+  review: {
+    question: "¿El hueco lo inventa Perplexity?",
+    options: ["Sí, es el experto", "No: lo propones tú con los huecos de la tabla", "El becario"],
+    answer: 1,
+    explain: "La herramienta junta pistas. La apuesta es tuya.",
   },
+  discovery2: "Recorta mercado. Celdas con enlace. El hueco lo firmas tú.",
+  closeItems: ["Recorta mercado", "Celdas con enlace", "El hueco lo firmas tú"],
 });
 
-const brief = track({
+const brief = coursivFlow({
   id: "brief",
   title: "De la pista al brief del equipo",
-  blurb: "Hallazgos, fuentes, huecos y el siguiente paso. Una página, no un ladrillo.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "Hallazgos, fuentes, huecos y el siguiente paso. Una página, no un ladrillo",
+  brand: B,
+  hero: img("brief.png"),
+  ui: img("brief-b.png"),
+  problemImg: q(3),
+  open: [
     "Pegar el recorte entero en el chat del equipo no es un brief: es tarea para otra persona. Un brief cabe en una pantalla: qué vimos, de dónde, qué no está claro y qué se hace el lunes.",
     "Perplexity arma el recorte. Tú armas el documento que alguien puede ejecutar sin volver a preguntarte “¿y esto de dónde salió?”.",
   ],
-  body: {
-    title: "Cuatro bloques, nada más",
-    text: "Hallazgo, fuente (enlace + fecha), hueco, siguiente paso con dueño. Si un bloque falta, el equipo improvisa.",
-  },
-  bullets: [
-    "Hallazgo en una frase",
-    "Fuente con enlace y fecha",
-    "Hueco o choque a la vista",
-    "Siguiente paso + quién lo hace",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Qué le falta a “les dejo lo que me dio Perplexity”?",
     options: [
       "Nada, está perfecto",
@@ -372,6 +495,35 @@ const brief = track({
     ],
     answer: 1,
     explain: "El ladrillo no se ejecuta. El brief de una página sí.",
+  },
+  meetTitle: "Cuatro bloques, nada más",
+  meetText: "Hallazgo, fuente (enlace + fecha), hueco, siguiente paso con dueño. Si un bloque falta, el equipo improvisa.",
+  meetList: [
+    "Hallazgo en una frase",
+    "Fuente con enlace y fecha",
+    "Hueco o choque a la vista",
+    "Siguiente paso + quién lo hace",
+  ],
+  pair: {
+    card: {
+      lead: "¿Este pedido es un brief o un ladrillo?",
+      prompt: "Hallazgo: el ticket local subió 15% vs 2025. Fuente: nota de 2026, enlace abierto. Siguiente paso: Ana cotiza a 3 proveedores el lunes.",
+    },
+    question: "¿Este prompt cabe en una página ejecutable?",
+    options: ["Sí: hallazgo, fuente y dueño", "No: falta pegar el recorte crudo"],
+    answer: 0,
+    explain: "El equipo ejecuta. No rehace tu pesquisa.",
+  },
+  discovery: "Una página: hallazgo, fuente, hueco, siguiente paso. El ladrillo no se ejecuta.",
+  exampleTitle: "El lunes de Ana",
+  exampleText: "Ticket local +15% vs 2025. Fuente abierta. No hay dato de zona industrial: hipótesis. Ana cotiza.",
+  exampleList: ["Frase, no párrafo", "Enlace a la vista", "Dueño del lunes"],
+  exampleImg: img("brief-b.png"),
+  multi: {
+    question: "¿Qué hace ejecutable un brief?",
+    options: ["Hallazgo en una frase", "Fuente con fecha", "Un dueño para el lunes"],
+    answers: [0, 1, 2],
+    explain: "Ejecutar. No rehacer tu pesquisa.",
   },
   practice: {
     title: "Arma el brief",
@@ -387,40 +539,31 @@ const brief = track({
         { title: "Lunes", text: "Ana cotiza. Tú no reenvías el recorte crudo." },
       ],
     },
-    review: {
-      question: "¿El equipo necesita el recorte crudo?",
-      options: ["Sí, para “transparencia”", "No: necesita hallazgo, fuente, hueco y dueño", "Solo el becario"],
-      answer: 1,
-      explain: "Ejecutar. No rehacer tu pesquisa.",
-    },
   },
-  close: {
-    tip: "una página: hallazgo, fuente, hueco, siguiente paso. El ladrillo no se ejecuta.",
-    items: ["Frase, no párrafo", "Enlace a la vista", "Dueño del lunes"],
+  review: {
+    question: "¿El equipo necesita el recorte crudo?",
+    options: ["Sí, para “transparencia”", "No: necesita hallazgo, fuente, hueco y dueño", "Solo el becario"],
+    answer: 1,
+    explain: "Ejecutar. No rehacer tu pesquisa.",
   },
+  discovery2: "Frase, no párrafo. Enlace a la vista. Dueño del lunes.",
+  closeItems: ["Frase, no párrafo", "Enlace a la vista", "Dueño del lunes"],
 });
 
-const limites = track({
+const limites = coursivFlow({
   id: "limites",
   title: "Alucinación, muro de pago y el clic",
-  blurb: "Sigue inventando. El recorte no paga el artículo. Tú abres el enlace.",
-  scene: "search",
-  brand: "Perplexity",
-  hook: [
+  blurb: "Sigue inventando. El recorte no paga el artículo. Tú abres el enlace",
+  brand: B,
+  hero: img("limites.png"),
+  ui: img("limites-b.png"),
+  problemImg: q(4),
+  trophy: true,
+  open: [
     "Perplexity cita y aun así puede torcer un número, mezclar dos notas o resumir un artículo que está detrás de un muro de pago. El recorte no es el texto completo: es lo que alcanzó a ver.",
     "Si el enlace pide suscripción, no des el recorte por ley. Si la cita no está en la página, es alucinación con traje de fuente. El clic no es desconfianza: es el oficio.",
   ],
-  body: {
-    title: "Tres trampas del recorte",
-    text: "Alucina con fluidez. Resume muros de pago como si los hubiera leído. Y te acostumbra a no abrir. Las tres se cazan igual: abres, buscas el dato, y si no está, lo bajas a hipótesis.",
-  },
-  bullets: [
-    "El número que no está en la página: fuera",
-    "Muro de pago: el recorte no es el artículo",
-    "Tú abres el enlace; Perplexity no firma el brief",
-    "Si no puedes citar el párrafo, no va al cliente",
-  ],
-  quiz: {
+  quiz1: {
     question: "El enlace está detrás de un muro de pago. ¿Qué haces con el recorte?",
     options: [
       "Lo pegas en la presentación del cliente",
@@ -430,6 +573,38 @@ const limites = track({
     ],
     answer: 1,
     explain: "Sin el artículo, no hay dato. Otra fuente, o hueco a la vista.",
+  },
+  meetTitle: "Tres trampas del recorte",
+  meetText:
+    "Alucina con fluidez. Resume muros de pago como si los hubiera leído. Y te acostumbra a no abrir. Las tres se cazan igual: abres, buscas el dato, y si no está, lo bajas a hipótesis.",
+  meetList: [
+    "El número que no está en la página: fuera",
+    "Muro de pago: el recorte no es el artículo",
+    "Tú abres el enlace; Perplexity no firma el brief",
+    "Si no puedes citar el párrafo, no va al cliente",
+  ],
+  pair: {
+    card: {
+      lead: "¿Este pedido caza la trampa o se fía del recorte?",
+      prompt: "Abre el enlace. Si hay muro de pago, no lo des por cierto. Si el dato no está, es hipótesis.",
+    },
+    question: "¿Este prompt caza alucinación y muro?",
+    options: ["Sí: clic, muro e hipótesis", "No: el recorte ya citó, basta"],
+    answer: 0,
+    explain: "La herramienta acelera. El clic es tuyo. Sin eso, el brief miente.",
+  },
+  discovery:
+    "Abre el enlace. Muro de pago y alucinación se cazan igual: el dato tiene que estar en la página.",
+  exampleTitle: "El 15% que sí estaba",
+  exampleText:
+    "Enlace 2: muro de pago, dato a hipótesis. Enlace 1 abierto: el 15% sí está en el párrafo 4. El recorte había mezclado dos notas.",
+  exampleList: ["Clic antes de la presentación", "El recorte no es el artículo", "Hipótesis se etiqueta"],
+  exampleImg: img("limites-b.png"),
+  multi: {
+    question: "¿Qué caza un recorte mentiroso?",
+    options: ["Abrir el enlace", "No tratar el muro como artículo leído", "Bajar a hipótesis lo que no está en la página"],
+    answers: [0, 1, 2],
+    explain: "Cero “según la IA”. Cifra verificada + hueco explícito.",
   },
   practice: {
     title: "Caza la trampa",
@@ -444,17 +619,16 @@ const limites = track({
         { title: "Al brief", text: "Cifra verificada + hueco explícito. Cero “según la IA”." },
       ],
     },
-    review: {
-      question: "¿Quién abre el enlace?",
-      options: ["Perplexity, en silencio", "Tú, siempre", "Nadie, el recorte basta"],
-      answer: 1,
-      explain: "La herramienta acelera. El clic es tuyo. Sin eso, el brief miente.",
-    },
   },
-  close: {
-    tip: "abre el enlace. Muro de pago y alucinación se cazan igual: el dato tiene que estar en la página.",
-    items: ["Clic antes de la presentación", "El recorte no es el artículo", "Hipótesis se etiqueta"],
+  review: {
+    question: "¿Quién abre el enlace?",
+    options: ["Perplexity, en silencio", "Tú, siempre", "Nadie, el recorte basta"],
+    answer: 1,
+    explain: "La herramienta acelera. El clic es tuyo. Sin eso, el brief miente.",
   },
+  discovery2:
+    "Ya tienes oficios, fuentes, recortes de país y año, colecciones, choques, tablas de mercado, briefs de una página y el clic que caza el muro. Eso es Perplexity al ritmo de Coursiv: una idea por clic, una tarea en el workspace, tú firmas la fuente.",
+  closeItems: ["Clic antes de la presentación", "El recorte no es el artículo", "Hipótesis se etiqueta"],
 });
 
 export const perplexityUnits = [

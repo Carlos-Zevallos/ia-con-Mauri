@@ -3,12 +3,15 @@ import { geminiUnits } from "./lessons/gemini.js";
 import { disenoGuide } from "./lessons/diseno.js";
 import { chatgptUnits } from "./lessons/chatgpt.js";
 import { claudeUnits } from "./lessons/claude.js";
+import { claudeExcelUnits } from "./lessons/claudeExcel.js";
+import { claudeFondoUnits } from "./lessons/claudeFondo.js";
 import { midjourneyUnits } from "./lessons/midjourney.js";
 import { deepseekUnits } from "./lessons/deepseek.js";
 import { jasperUnits } from "./lessons/jasper.js";
 import { perplexityUnits } from "./lessons/perplexity.js";
 import { canvaUnits } from "./lessons/canva.js";
 import { klingUnits } from "./lessons/kling.js";
+import { omniUnits } from "./lessons/omni.js";
 import { lovableUnits } from "./lessons/lovable.js";
 import { sdUnits } from "./lessons/sd.js";
 
@@ -182,8 +185,8 @@ export const exploreAiCatalog = [
   {
     id: "claude-excel",
     title: "Claude para Excel",
-    coverId: "claude",
-    to: "/guides/claude",
+    coverId: "claude-excel",
+    to: "/guides/claude-excel",
     lessons: 7,
     hours: 3,
     progress: 0,
@@ -192,8 +195,8 @@ export const exploreAiCatalog = [
   {
     id: "claude-fondo",
     title: "Claude: A fondo",
-    coverId: "claude",
-    to: "/guides/claude",
+    coverId: "claude-fondo",
+    to: "/guides/claude-fondo",
     lessons: 13,
     hours: 5,
     progress: 0,
@@ -292,11 +295,11 @@ export const exploreAiCatalog = [
   {
     id: "omni",
     title: "Omni",
-    coverId: "kling",
-    to: "/guides/kling",
+    coverId: "omni",
+    to: "/guides/omni",
     lessons: 10,
     hours: 4,
-    progress: 100,
+    progress: 0,
     tags: ["Anuncios en video", "Redes sociales", "Metraje realista"],
   },
   {
@@ -394,6 +397,28 @@ const guidesRaw = [
     unitsList: claudeUnits,
   },
   {
+    id: "claude-excel",
+    title: "Claude para Excel",
+    subtitle: "Texto y razonamiento",
+    color: "#d97706",
+    progress: 0,
+    units: 2,
+    minutes: 180,
+    blurb: "Add-in en el libro abierto: fórmulas, escenarios y QA. 7 lecciones, 3 horas.",
+    unitsList: claudeExcelUnits,
+  },
+  {
+    id: "claude-fondo",
+    title: "Claude: A fondo",
+    subtitle: "Texto y razonamiento",
+    color: "#d97706",
+    progress: 0,
+    units: 3,
+    minutes: 300,
+    blurb: "Documentos largos, trabajo estratégico y automatización. 13 lecciones, 5 horas.",
+    unitsList: claudeFondoUnits,
+  },
+  {
     id: "gemini",
     title: "Gemini",
     subtitle: "Texto y razonamiento",
@@ -412,7 +437,7 @@ const guidesRaw = [
     progress: 0,
     units: 3,
     minutes: 300,
-    blurb: "Cuando hay reglas o números, pide el paso a paso. Mercado, rivales y un flujo que se puede repetir.",
+    blurb: "Cómo funciona DeepSeek, modos Instant / Expert / Vision, DeepThink y Search.",
     unitsList: deepseekUnits,
   },
   {
@@ -469,6 +494,17 @@ const guidesRaw = [
     minutes: 180,
     blurb: "De mensaje a pieza: Magic Studio, kit de marca y el archivo del canal.",
     unitsList: canvaUnits,
+  },
+  {
+    id: "omni",
+    title: "Omni",
+    subtitle: "Visual y video",
+    color: "#E85D4C",
+    progress: 0,
+    units: 2,
+    minutes: 240,
+    blurb: "Anuncios en video, redes y metraje realista. Un plano, no un Reel “cool”.",
+    unitsList: omniUnits,
   },
   {
     id: "kling",

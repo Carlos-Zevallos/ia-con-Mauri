@@ -1,123 +1,332 @@
-const img = (file) => ({ kind: "image", src: `/lessons/deepseek/${file}?v=6` });
+const img = (file) => ({ kind: "image", src: `/lessons/deepseek/${file}?v=8` });
 
 const comoSteps = [
   {
     type: "content",
-    title: "El número que no se puede defender",
+    title: "Comprender el fenómeno DeepSeek",
     blocks: [
       {
         kind: "p",
-        text: "Piensa en la última vez que necesitaste un número para decidir: un margen, un descuento, un plazo. El primer total se veía bien. Lo pegaste. Luego alguien preguntó “¿de dónde salió el signo?” y no tenías el camino.",
+        text: "Imagina una IA tan poderosa que no solo recupera información, sino que usa un razonamiento paso a paso para entenderla, analizarla y sintetizarla como un experto. Te damos la bienvenida a DeepSeek, el sistema de IA de última generación que transformó la forma en que interactuamos con los datos.",
       },
       {
         kind: "p",
-        text: "Si te suena familiar, DeepSeek es la mesa para ese oficio. Su especialidad no es el tono de una carta. Es mostrar el paso a paso cuando hay reglas o cifras.",
+        text: "Vamos a descubrir qué hace especial a DeepSeek y cómo puede potenciar tu trabajo con los datos.",
       },
       img("como.png"),
     ],
   },
   {
-    type: "quiz",
-    title: "El verdadero reto",
-    image: "/lessons/deepseek/q1.png?v=6",
-    question: "¿Cuál es el mayor problema cuando un modelo te da un total suelto?",
-    options: [
-      "Que el chat se ve poco profesional",
-      "Que no puedes auditar el camino y un error de signo se cuela",
-      "Que DeepSeek no habla español",
-    ],
-    answer: 1,
-    explain:
-      "Así es. Un número sin pasos no se revisa. El error no está en el logo: está en copiar el primer total.",
-  },
-  {
     type: "content",
-    title: "Conoce DeepSeek",
+    title: "¿Qué es DeepSeek?",
+    hideTitle: true,
     blocks: [
+      img("como.png"),
+      { kind: "h", text: "¿Qué es DeepSeek?" },
       {
         kind: "p",
-        text: "DeepSeek es un modelo de razonamiento. Destaca cuando pides que piense en voz alta: pasos numerados, unidades a la vista y una revisión al final.",
+        text: "DeepSeek es un asistente de IA avanzado de [[código abierto]] con un motor de búsqueda integrado que le permite escribir reportes completos sobre cualquier tema.",
       },
-      {
-        kind: "p",
-        text: "En la interfaz, DeepThink (R1) es el interruptor de ese modo. Search busca. Tú eliges. En esta ruta aprendes a usarlo para cálculos, reglas y flujos que se pueden repetir.",
-      },
-      img("03.png"),
     ],
   },
   {
     type: "content",
-    title: "El camino no es adorno",
+    hideTitle: true,
+    title: "¿Qué es DeepSeek?",
     blocks: [
-      img("como-b.png"),
-      { kind: "h", text: "Tres piezas que cambian el resultado" },
       {
-        kind: "ul",
-        items: [
-          "Pasos numerados, no un total suelto",
-          "Unidades a la vista (pesos, %, días)",
-          "Una revisión al final: signo, escala, huecos",
-          "Si falta un dato, “por confirmar”, no un número inventado",
-        ],
+        kind: "p",
+        text: "La plataforma funciona para varios tipos de tareas, desde la generación de texto simple hasta la resolución de problemas complejos, lo que la hace versátil para diferentes necesidades: publicaciones de blog, investigación de mercado, análisis de datos y muchas más.",
+      },
+      { kind: "ds-uses" },
+    ],
+  },
+  {
+    type: "content",
+    hideTitle: true,
+    title: "Costo de entrenamiento",
+    blocks: [
+      {
+        kind: "p",
+        text: "Desde su lanzamiento, el secreto detrás de la popularidad de DeepSeek ha sido el enfoque innovador de sus desarrolladores. El detalle es que DeepSeek logra capacidades impresionantes utilizando muchos menos recursos que otros modelos de IA.",
       },
       {
-        kind: "callout",
-        text: "💡 Primer descubrimiento. DeepSeek se luce cuando el resultado tiene que mostrar el camino. Si solo miras el primer borrador, un error de signo se cuela.",
+        kind: "p",
+        text: "Según la información disponible, entrenar el modelo inicial de DeepSeek costó solo alrededor de **5 millones de dólares**, mientras que para otros asistentes, las cifras alcanzan las **decenas de millones**.",
+      },
+      { kind: "ds-cost" },
+    ],
+  },
+  {
+    type: "content",
+    stack: true,
+    hideTitle: true,
+    title: "Gratis y rápido",
+    blocks: [
+      {
+        kind: "p",
+        text: "De aquí surge una de las principales ventajas de DeepSeek: para uso personal, **está disponible para todos de forma gratuita.**",
+      },
+      {
+        kind: "p",
+        text: "Esto significa que, a diferencia de otras herramientas, no requiere suscripción para acceder a todas sus funciones.",
+      },
+    ],
+  },
+  {
+    type: "content",
+    stack: true,
+    hideTitle: true,
+    title: "Gratis y rápido",
+    blocks: [
+      {
+        kind: "p",
+        text: "Además, DeepSeek es rapidísimo. Cuando se lanzó por primera vez, funcionaba tres veces más rápido que otras herramientas de IA líderes.",
+      },
+      {
+        kind: "p",
+        text: "Como resultado, esto creó una tendencia hacia modelos rápidos como Gemini Flash o el modo instantáneo de ChatGPT.",
+      },
+      {
+        kind: "p",
+        text: "Así que la accesibilidad y las potentes capacidades de DeepSeek lo hacen ideal para cualquier persona, tanto para fines personales como de negocios.",
+      },
+    ],
+  },
+  {
+    type: "content",
+    stack: true,
+    hideTitle: true,
+    title: "Elegir el modo adecuado",
+    blocks: [
+      { kind: "h", text: "Elegir el modo adecuado" },
+      {
+        kind: "p",
+        text: "Al abrir DeepSeek, verás tres modos en la parte superior del chat: Instant, Expert y Vision.",
+      },
+      {
+        kind: "p",
+        text: "Cada uno está diseñado para un tipo de tarea diferente, y elegir el correcto antes de escribir define cómo responderá DeepSeek.",
+      },
+      { kind: "ds-modes" },
+    ],
+  },
+  {
+    type: "content",
+    stack: true,
+    hideTitle: true,
+    title: "Instant y Expert",
+    blocks: [
+      {
+        kind: "p",
+        text: "**Instant** es la opción predeterminada: rápida, ligera y diseñada para preguntas cotidianas, borradores rápidos, resúmenes o traducciones.",
+      },
+      {
+        kind: "p",
+        text: "Úsalo cuando busques una respuesta útil en segundos en lugar del análisis más profundo posible.",
+      },
+      {
+        kind: "p",
+        text: "El modo **Expert** maneja problemas más difíciles: análisis profundo, investigación de varios pasos o documentos largos que requieren atención al detalle.",
+      },
+      {
+        kind: "p",
+        text: "Puede ser más lento que Instant, pero las respuestas son notablemente mejores cuando la tarea realmente lo exige.",
+      },
+    ],
+  },
+  {
+    type: "content",
+    stack: true,
+    hideTitle: true,
+    title: "Vision",
+    blocks: [
+      {
+        kind: "p",
+        text: "**Vision** es el tercer modo, diseñado para trabajar con imágenes en lugar de solo texto. Cambia a este modo, adjunta una foto o captura de pantalla y pregúntale a DeepSeek lo que quieras saber sobre la imagen.",
+      },
+      {
+        kind: "p",
+        text: "Puede describir lo que ve, leer el texto de una imagen o responder preguntas específicas sobre el contenido visual.",
+      },
+    ],
+  },
+  {
+    type: "content",
+    stack: true,
+    hideTitle: true,
+    title: "Capacidades principales",
+    blocks: [
+      {
+        kind: "p",
+        text: "¡Bien hecho! Ya conoces los modos principales de DeepSeek. Ahora vamos a enfocarnos en sus capacidades.",
+      },
+      {
+        kind: "p",
+        text: "DeepSeek destaca por varias características clave que lo hacen sobresalir en el mundo de la IA.",
+      },
+      {
+        kind: "p",
+        text: "**DeepThink** es una de esas características, y permite a los usuarios observar el razonamiento paso a paso de la IA mientras procesa una consulta.",
+      },
+      {
+        kind: "p",
+        text: "Esto ayuda a identificar posibles errores en el enfoque de la IA, lo que resulta muy útil para afinar tareas complejas y asegurar resultados más precisos.",
+      },
+      { kind: "ds-think" },
+    ],
+  },
+  {
+    type: "content",
+    hideTitle: true,
+    title: "DeepThink",
+    blocks: [
+      {
+        kind: "p",
+        text: "En la captura de pantalla a continuación, puedes ver un ejemplo del proceso de pensamiento de DeepSeek.",
+      },
+      {
+        kind: "p",
+        text: "Para fines de demostración, todas las capturas de pantalla están en inglés.",
+      },
+      { kind: "ds-math" },
+      {
+        kind: "p",
+        text: "Como puedes ver, DeepSeek aborda incluso las consultas más simples, como “12*5-x=78”, con un proceso de razonamiento detallado paso a paso para dar la mejor respuesta posible. Bastante impresionante, ¿verdad?",
+      },
+      {
+        kind: "p",
+        text: "Por cierto, ¡esta función también fue adoptada más tarde por otros modelos!",
+      },
+    ],
+  },
+  {
+    type: "content",
+    stack: true,
+    hideTitle: true,
+    title: "DeepSeek como motor de búsqueda",
+    blocks: [
+      {
+        kind: "p",
+        text: "Además, a diferencia de los motores de búsqueda tradicionales, la función Search de DeepSeek puede entender el significado detrás de tus preguntas.",
+      },
+      {
+        kind: "p",
+        text: "Interpreta consultas ambiguas y encuentra información relevante basada en conceptos en lugar de solo palabras clave.",
+      },
+      {
+        kind: "p",
+        text: "Por ejemplo, preguntar “¿Por qué la gente prefiere comprar en línea?” hace que DeepSeek analice contenido relacionado con hábitos de compra en línea, comportamiento del consumidor y tendencias del comercio digital. Luego te entregará un reporte detallado sobre la pregunta, ayudándote a descubrir cosas que no esperabas.",
       },
     ],
   },
   {
     type: "fill",
-    title: "Pídele el camino, no el total",
-    lead: "Un combo pasa de 89 a 96 MXN. El costo es 41. Quieres ver el margen y cazar errores.",
-    template: "Resuelve esto en {blank} numerados, muestra {blank} y haz una {blank} al final.",
-    slots: ["formato", "qué mostrar", "control"],
-    answers: ["pasos", "unidades en pesos", "revisión"],
-    bank: ["pasos", "unidades en pesos", "revisión"],
-    hint: "Formato → unidades → control.",
+    title: "Pruébalo tú mismo",
+    lead: "Completa la consulta de búsqueda y mira la respuesta que dará DeepSeek.",
+    template: "¿Cuáles son las diferencias clave entre las tecnologías {blank}?",
+    slots: ["tema de la pregunta"],
+    answers: ["4G y 5G"],
+    bank: ["4G y 5G"],
+    hint: "Toca la ficha para completar la consulta.",
     success: "¡Increíble!",
     successSub: "Estás en el buen camino con tu enfoque.",
     workspaceBrand: "DeepSeek",
     simReply: {
-      intro: "Cinco pasos. En el 3 el signo del descuento estaba al revés: la revisión lo marcó.",
+      animate: true,
+      intro: "Las principales diferencias entre las tecnologías 4G y 5G:",
       sections: [
-        { title: "Paso 3", text: "El descuento se restaba dos veces. Total mal: 12 400. Total revisado: 11 200 MXN." },
-        { title: "Revisión", text: "Unidades en pesos. IVA no estaba en tu tabla: por confirmar." },
+        {
+          title: "Velocidad",
+          text: "5G alcanza velocidades mucho mayores que 4G, lo que permite descargas y streaming con menos espera.",
+        },
+        {
+          title: "Capacidad de respuesta",
+          text: "La latencia de 5G es menor, así que las apps reaccionan casi en tiempo real.",
+        },
+        {
+          title: "Conexiones",
+          text: "5G soporta más dispositivos conectados a la vez en la misma red.",
+        },
       ],
     },
   },
   {
+    type: "content",
+    hideTitle: true,
+    title: "Tarea completada",
+    doneBanner: "Pruébalo tú mismo",
+    doneLead: "Completa la consulta de búsqueda y mira la respuesta que dará DeepSeek.",
+    blocks: [
+      {
+        kind: "p",
+        text: "Ya viste ambos modos en acción: DeepThink para un pensamiento transparente paso a paso, y Search para una investigación exhaustiva de temas.",
+      },
+      {
+        kind: "p",
+        text: "Entender cuándo usar cada modo es fundamental; vamos a poner a prueba ese conocimiento.",
+      },
+    ],
+  },
+  {
     type: "quiz",
-    title: "Por qué funcionó el pedido",
-    doneBanner: "Pídele el camino, no el total",
-    doneLead: "Un combo pasa de 89 a 96 MXN. El costo es 41. Quieres ver el margen y cazar errores.",
-    question: "¿Qué hizo útil este pedido?",
+    stack: true,
+    hideTitle: true,
+    keepOrder: true,
+    title: "Pon a prueba ese conocimiento",
+    question: "¿Qué factor principal contribuyó al desarrollo eficiente de DeepSeek?",
     options: [
-      "Que era corto",
-      "Que pedía pasos, unidades y una revisión, no solo el total",
-      "Que usaba palabras en inglés",
+      "Preprocesamiento exhaustivo de datos",
+      "Infraestructura de hardware avanzada",
+      "Metodología de entrenamiento optimizada",
+      "Modelo de desarrollo colaborativo",
+    ],
+    answer: 2,
+    explain:
+      "Aunque todos los factores importan en el desarrollo de IA, el gran avance de DeepSeek provino de su enfoque de entrenamiento optimizado que redujo la necesidad de recursos.",
+  },
+  {
+    type: "quiz",
+    stack: true,
+    hideTitle: true,
+    keepOrder: true,
+    title: "Modo de razonamiento",
+    question: "¿Cuándo conviene elegir el modo de razonamiento de DeepSeek en lugar del modo Search?",
+    options: [
+      "Cuando necesitas un reporte de investigación completo sobre un tema o respuestas basadas en datos rápidos",
+      "Cuando necesitas ver la lógica paso a paso y verificar cómo se llegó a las conclusiones",
     ],
     answer: 1,
-    explain: "El camino se puede checar. El número suelto, no.",
+    explain:
+      "Los reportes de investigación y los datos rápidos son más adecuados para el modo Search. Usa el modo de razonamiento cuando el proceso lógico importa tanto como el resultado final.",
   },
   {
     type: "content",
-    title: "Para llevar",
+    stack: true,
+    hideTitle: true,
+    title: "Puntos clave",
+    blocks: [
+      {
+        kind: "keypoints",
+        items: [
+          "DeepSeek es una herramienta de IA gratuita y potente para búsqueda y análisis.",
+          "Elige Instant, Expert o Vision antes de escribir: el modo define cómo responde.",
+          "DeepThink muestra el razonamiento paso a paso; Search entrega reportes de investigación.",
+        ],
+      },
+    ],
+  },
+  {
+    type: "content",
+    title: "Bien hecho",
     last: true,
     blocks: [
       {
-        kind: "callout",
-        text: "💡 Segundo descubrimiento. La fórmula: reglas + caso + formato (pasos) + revisión. DeepSeek acelera. Tú firmas el número.",
+        kind: "p",
+        text: "Ahora entiendes cuándo usar DeepSeek y cómo sus dos modos atienden diferentes necesidades: razonamiento para lógica visible y búsqueda para reportes de investigación.",
       },
-      {
-        kind: "ul",
-        items: [
-          "Pide pasos numerados",
-          "Unidades a la vista",
-          "Revisión al final",
-          "No copies el primer total",
-        ],
-      },
+      { kind: "p", text: "¡Vamos a aprender más!" },
+      img("como-b.png"),
     ],
   },
 ];
@@ -787,11 +996,11 @@ function lesson(id, title, blurb, steps, extra = {}) {
 export const deepseekUnits = [
   {
     id: "u1",
-    title: "DeepSeek en la práctica",
+    title: "DeepSeek",
     lessons: [
-      lesson("como", "Cómo piensa DeepSeek", "Cuando hay reglas o números, pide el paso a paso.", comoSteps),
-      lesson("usos", "Para qué sí (y para qué no)", "Números, reglas, código corto. No un tono de novela.", usosSteps),
-      lesson("etica", "Lo que no debes copiar a ciegas", "Un modelo no firma. Un error de signo en un cobro sí duele.", eticaSteps),
+      lesson("como", "Cómo funciona DeepSeek", "Descubre por qué DeepSeek se convirtió en una IA tan popular", comoSteps),
+      lesson("usos", "Descubrir aplicaciones en el mundo real", "Números, reglas, código corto. No un tono de novela.", usosSteps),
+      lesson("etica", "Consideraciones éticas del uso de IA", "Un modelo no firma. Un error de signo en un cobro sí duele.", eticaSteps),
     ],
   },
   {

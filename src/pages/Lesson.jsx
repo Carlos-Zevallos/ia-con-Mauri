@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   AlertCircle,
@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { findLesson } from "../data.js";
+import { enrichSimReply } from "../lessons/fillResults.js";
 import { canOpenLesson, lessonKey } from "../lib/progress.js";
 import { useStore } from "../store.jsx";
 import LessonScene from "../components/LessonScene.jsx";
@@ -21,13 +22,86 @@ import LessonTrack from "../components/LessonTrack.jsx";
 import LyriaTrack from "../components/LyriaTrack.jsx";
 import { GeminiCreateMusicGrid, GeminiToolsMenu } from "../components/GeminiMusicMock.jsx";
 import PremiumPaywall from "../components/PremiumPaywall.jsx";
+import {
+  DsCostChart,
+  DsKeyPoints,
+  DsMathReply,
+  DsModesBar,
+  DsThinkSearch,
+  DsUseGrid,
+} from "../components/DeepSeekLessonBits.jsx";
+import AiIcon from "../components/AiIcon.jsx";
+
+const BRAND_ICON = {
+  Claude: "claude",
+  ChatGPT: "chatgpt",
+  DeepSeek: "deepseek",
+  Gemini: "gemini",
+  Perplexity: "perplexity",
+  Jasper: "jasper",
+  Midjourney: "midjourney",
+  "Stable Diffusion": "sd",
+  Kling: "kling",
+  Omni: "omni",
+  Grok: "grok",
+  "DALL·E": "dalle",
+  "Nano Banana": "nano",
+  "Canva AI": "canva",
+  Canva: "canva",
+  Lovable: "lovable",
+};
+
+function brandIconId(name) {
+  return BRAND_ICON[name] || "claude";
+}
+
+function WorkspaceBrand({ name, size = 18 }) {
+  const id = brandIconId(name);
+  return (
+    <span className="ws-brand-row">
+      <AiIcon id={id} size={size} />
+      <strong>{name}</strong>
+    </span>
+  );
+}
+
+function FillLead({ text }) {
+  const raw = String(text || "").trim();
+  const line = /espacios en blanco/i.test(raw)
+    ? raw
+    : `Llena los espacios en blanco para ver cómo puedes construir un prompt.${raw ? ` ${raw}` : ""}`;
+  const parts = line.split(/(los espacios en blanco)/i);
+  return (
+    <p className="lesson-p fill-lead">
+      {parts.map((part, i) =>
+        /los espacios en blanco/i.test(part) ? (
+          <span key={i} className="fill-lead-hl">
+            {part}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </p>
+  );
+}
 
 function Rich({ text }) {
   if (!text) return null;
-  const parts = String(text).split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((part, i) =>
-    part.startsWith("**") ? <strong key={i}>{part.slice(2, -2)}</strong> : <span key={i}>{part}</span>
-  );
+  const parts = String(text).split(/(\*\*[^*]+\*\*|\[\[[^\]]+\]\])/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith("[[") && part.endsWith("]]")) {
+      return (
+        <abbr key={i} className="glossary-term">
+          {part.slice(2, -2)}
+        </abbr>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
 }
 
 function pauseLessonTracks() {
@@ -44,13 +118,20 @@ function hashSeed(str) {
 
 /** Mezcla estable por lección/paso: la correcta no se queda siempre en el mismo sitio. */
 function shuffleList(list, seedStr) {
-  const items = (list || []).map((value, source) => ({ value, source }));
+  const original = (list || []).map((value, source) => ({ value, source }));
+  if (original.length <= 1) return original;
   let s = hashSeed(seedStr);
-  for (let i = items.length - 1; i > 0; i--) {
-    s = (s * 16807) % 2147483647;
-    const j = s % (i + 1);
-    [items[i], items[j]] = [items[j], items[i]];
+  let items = original.map((row) => ({ ...row }));
+  for (let attempt = 0; attempt < 16; attempt += 1) {
+    for (let i = items.length - 1; i > 0; i -= 1) {
+      s = (s * 16807) % 2147483647;
+      const j = s % (i + 1);
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+    const sameOrder = items.every((row, i) => row.source === i);
+    if (!sameOrder) return items;
   }
+  [items[0], items[1]] = [items[1], items[0]];
   return items;
 }
 
@@ -103,6 +184,12 @@ function Blocks({ blocks, fallbackTitle, navigate, guideId, onPlayTrack }) {
     if (block.kind === "music-grid") {
       return <GeminiCreateMusicGrid key={i} />;
     }
+    if (block.kind === "ds-cost") return <DsCostChart key={i} />;
+    if (block.kind === "ds-uses") return <DsUseGrid key={i} />;
+    if (block.kind === "ds-modes") return <DsModesBar key={i} />;
+    if (block.kind === "ds-think") return <DsThinkSearch key={i} />;
+    if (block.kind === "ds-math") return <DsMathReply key={i} />;
+    if (block.kind === "keypoints") return <DsKeyPoints key={i} items={block.items} />;
     if (block.kind === "ul") {
       return (
         <ul key={i} className="lesson-list">
@@ -206,48 +293,154 @@ function filledPrompt(step, values) {
   return step.template.replace(/\{blank\}/g, () => values[i++] || "");
 }
 
-function TypeLine({ text }) {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    setN(0);
-    if (!text) return undefined;
-    const id = setInterval(() => {
-      setN((x) => {
-        if (x >= text.length) {
-          clearInterval(id);
-          return text.length;
-        }
-        return x + Math.max(1, Math.ceil(text.length / 90));
-      });
-    }, 24);
-    return () => clearInterval(id);
-  }, [text]);
-  const done = n >= (text?.length || 0);
+function flattenReply(reply) {
+  if (!reply) return [];
+  const parts = [];
+  const sections = reply.sections || [];
+  // La intro tipo “120 caracteres. Nadie revolucionó nada.” es nota de la lección, no el resultado del prompt.
+  if (reply.intro && !sections.length) {
+    parts.push({ kind: "p", text: reply.intro });
+  }
+  sections.forEach((section) => {
+    const items = section.items || [];
+    if (section.title && section.text && !items.length) {
+      parts.push({ kind: "pair", title: String(section.title).replace(/:$/, ""), text: section.text });
+    } else {
+      if (section.title) parts.push({ kind: "h", text: section.title });
+      if (section.text) parts.push({ kind: "p", text: section.text });
+      items.forEach((item) => parts.push({ kind: "li", text: item }));
+    }
+  });
+  return parts;
+}
+
+function partLen(part) {
+  if (part.kind === "pair") return part.title.length + 2 + part.text.length;
+  return part.text.length;
+}
+
+function Caret() {
+  return <span className="ws-caret">|</span>;
+}
+
+function TypedPair({ title, text, take, caret }) {
+  const head = `${title}:`;
+  const titleTake = Math.min(take, head.length);
+  const restTake = Math.max(0, take - head.length - 1);
   return (
-    <p>
-      {text.slice(0, n)}
-      {done ? null : <span className="ws-caret">|</span>}
+    <p className="sim-line">
+      <strong>{head.slice(0, titleTake)}</strong>
+      {take > head.length ? ` ${text.slice(0, restTake)}` : null}
+      {caret ? <Caret /> : null}
     </p>
   );
 }
 
-function SimReply({ reply }) {
-  if (!reply) return null;
+function SimReply({ reply, animate }) {
+  const parts = useMemo(() => flattenReply(reply), [reply]);
+  const total = useMemo(() => parts.reduce((n, part) => n + partLen(part), 0), [parts]);
+  const run = Boolean(animate || reply?.animate);
+  const [chars, setChars] = useState(run ? 0 : total);
+  const boxRef = useRef(null);
+
+  useEffect(() => {
+    if (!run) {
+      setChars(total);
+      return undefined;
+    }
+    setChars(0);
+    let tick;
+    const start = setTimeout(() => {
+      tick = setInterval(() => {
+        setChars((n) => {
+          if (n >= total) {
+            clearInterval(tick);
+            return total;
+          }
+          return Math.min(total, n + 2);
+        });
+      }, 20);
+    }, 320);
+    return () => {
+      clearTimeout(start);
+      if (tick) clearInterval(tick);
+    };
+  }, [reply, run, total]);
+
+  useEffect(() => {
+    const body = boxRef.current?.closest(".lesson-body");
+    if (!body) return;
+    const gap = body.scrollHeight - body.scrollTop - body.clientHeight;
+    if (gap < 96 || chars < 24) body.scrollTop = body.scrollHeight;
+  }, [chars]);
+
+  if (!reply || !parts.length) return null;
+
+  const done = chars >= total;
+  const nodes = [];
+  let used = 0;
+  let lis = [];
+  const flushLis = (key) => {
+    if (!lis.length) return;
+    nodes.push(
+      <ul key={key} className="sim-dashes">
+        {lis}
+      </ul>
+    );
+    lis = [];
+  };
+
+  parts.forEach((part, i) => {
+    if (used >= chars) return;
+    const len = partLen(part);
+    const take = Math.min(len, chars - used);
+    const complete = take >= len;
+    const caret = !done && take === chars - used && take < len;
+    used += take;
+
+    if (part.kind === "li") {
+      lis.push(
+        <li key={`li-${i}`}>
+          {part.text.slice(0, take)}
+          {caret ? <Caret /> : null}
+        </li>
+      );
+      if (!complete) flushLis(`ul-${i}`);
+      return;
+    }
+
+    flushLis(`ul-${i}`);
+    if (part.kind === "pair") {
+      nodes.push(<TypedPair key={`pair-${i}`} title={part.title} text={part.text} take={take} caret={caret || (!done && complete && used === chars)} />);
+      return;
+    }
+    if (part.kind === "h") {
+      nodes.push(
+        <strong key={`h-${i}`} className="sim-h">
+          {part.text.slice(0, take)}
+          {caret ? <Caret /> : null}
+        </strong>
+      );
+      return;
+    }
+    nodes.push(
+      <p key={`p-${i}`}>
+        {part.text.slice(0, take)}
+        {caret ? <Caret /> : null}
+      </p>
+    );
+  });
+  flushLis("ul-end");
+
   return (
-    <div className="ws-text-result">
-      {reply.intro ? (reply.animate ? <TypeLine text={reply.intro} /> : <p>{reply.intro}</p>) : null}
-      {reply.sections?.map((section) => (
-        <div key={section.title} className="sim-section">
-          <strong>{section.title}:</strong> {section.text || ""}
-          {section.items ? (
-            <ul>
-              {section.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-      ))}
+    <div className="ws-text-result" ref={boxRef}>
+      {chars === 0 ? (
+        <p>
+          <Caret />
+        </p>
+      ) : (
+        nodes
+      )}
     </div>
   );
 }
@@ -255,6 +448,12 @@ function SimReply({ reply }) {
 function stepsOf(lesson) {
   if (lesson.steps?.length) return lesson.steps;
   return [lesson];
+}
+
+function stackStart(steps, index) {
+  let i = index;
+  while (i > 0 && steps[i]?.stack) i -= 1;
+  return i;
 }
 
 function speakText(text, rate) {
@@ -291,6 +490,7 @@ export default function Lesson() {
   const [stars, setStars] = useState(0);
   const [toast, setToast] = useState("");
   const [paywall, setPaywall] = useState(false);
+  const [locked, setLocked] = useState({});
 
   const steps = found ? stepsOf(found.lesson) : [];
   const step = steps[stepIndex] || null;
@@ -299,6 +499,7 @@ export default function Lesson() {
     setStepIndex(0);
     setComplete(false);
     setStars(0);
+    setLocked({});
   }, [guideId, unitId, lessonId]);
 
   useEffect(() => {
@@ -347,6 +548,12 @@ export default function Lesson() {
       window.speechSynthesis?.cancel();
     }
   }, [listen]);
+
+  useEffect(() => {
+    if (!step?.stack) return;
+    const el = document.getElementById(`ls-${stepIndex}`);
+    el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [stepIndex, step?.stack]);
 
   useEffect(() => {
     if (!listen || !step || !playing) {
@@ -411,7 +618,11 @@ export default function Lesson() {
   const fillWrong = step.type === "fill" && checked && !fillSolved;
   const canContinue = !needsCheck || (step.type === "fill" ? fillSolved : checked);
   const mixSeed = `${guide.id}:${unitId}:${lesson.id}:${stepIndex}`;
-  const quizChoices = step.options?.length ? shuffleList(step.options, `${mixSeed}:quiz`) : [];
+  const quizChoices = step.options?.length
+    ? step.keepOrder
+      ? step.options.map((value, source) => ({ value, source }))
+      : shuffleList(step.options, `${mixSeed}:quiz`)
+    : [];
   const quizAnswerAt = quizChoices.findIndex((c) => c.source === step.answer);
   const multiAnswerAt = new Set(
     (Array.isArray(step.answers) ? step.answers : [])
@@ -421,6 +632,16 @@ export default function Lesson() {
   );
   const bank = shuffleList(step.bank || step.answers || [], `${mixSeed}:bank`).map((c) => c.value);
   const parts = step.type === "fill" ? (step.template || "").split("{blank}") : [];
+  const startIdx = stackStart(steps, stepIndex);
+  const priorStack = steps.slice(startIdx, stepIndex);
+  const fillPage = step.type === "fill";
+
+  function choicesFor(s, abs) {
+    const seed = `${guide.id}:${unitId}:${lesson.id}:${abs}`;
+    if (!s.options?.length) return [];
+    if (s.keepOrder) return s.options.map((value, source) => ({ value, source }));
+    return shuffleList(s.options, `${seed}:quiz`);
+  }
 
   function goMap(mark) {
     window.speechSynthesis?.cancel();
@@ -433,9 +654,14 @@ export default function Lesson() {
     pauseLessonTracks();
     window.speechSynthesis?.cancel();
     if (listen) setPlaying(true);
+    setLocked((prev) => ({
+      ...prev,
+      [stepIndex]: { picked, pickedMany, checked, result, fill, fillRevealed },
+    }));
     if (stepIndex < steps.length - 1) {
+      const next = steps[stepIndex + 1];
       setStepIndex((i) => i + 1);
-      window.scrollTo(0, 0);
+      if (!next?.stack) window.scrollTo(0, 0);
       return;
     }
     markDone(`${guide.id}:${unitId}:${lesson.id}`);
@@ -626,20 +852,89 @@ export default function Lesson() {
   }
 
   return (
-    <div className="app-shell lesson-player">
+    <div className={`app-shell lesson-player${fillPage ? " fill-page" : ""}`}>
       <div className="phone-col lesson-top">
-        <button className="icon-btn" onClick={goPrev} aria-label="Atrás">
-          <ChevronLeft />
-        </button>
-        <div className="progress-bar lesson-progress">
-          <span style={{ width: `${progress}%` }} />
-        </div>
-        <button className="icon-btn close-x" onClick={() => navigate(`/guides/${guide.id}`)} aria-label="Cerrar">
-          <X size={18} />
-        </button>
+        {fillPage ? (
+          <button className="icon-btn close-x" onClick={() => navigate(`/guides/${guide.id}`)} aria-label="Cerrar">
+            <X size={18} />
+          </button>
+        ) : (
+          <button className="icon-btn" onClick={goPrev} aria-label="Atrás">
+            <ChevronLeft />
+          </button>
+        )}
+        {fillPage ? (
+          <span className="lesson-progress" />
+        ) : (
+          <div className="progress-bar lesson-progress">
+            <span style={{ width: `${progress}%` }} />
+          </div>
+        )}
+        {fillPage ? (
+          <span />
+        ) : (
+          <button className="icon-btn close-x" onClick={() => navigate(`/guides/${guide.id}`)} aria-label="Cerrar">
+            <X size={18} />
+          </button>
+        )}
       </div>
 
       <div className="phone-col lesson-body">
+        {priorStack.map((s, k) => {
+          const abs = startIdx + k;
+          const fr = locked[abs] || {};
+          const chs = choicesFor(s, abs);
+          const ansAt = chs.findIndex((c) => c.source === s.answer);
+          return (
+            <div key={abs} className="lesson-stack-item is-past">
+              {s.doneBanner ? (
+                <div className="done-banner">
+                  <div className="done-workspace-head">✦ Con tecnología de AI Workspace</div>
+                  <p className="done-kicker">Tarea completada</p>
+                  <h2>{s.doneBanner}</h2>
+                  {s.doneLead ? <p className="muted">{s.doneLead}</p> : null}
+                  <button
+                    type="button"
+                    className="repeat-btn"
+                    onClick={() => setStepIndex(abs > 0 ? abs - 1 : abs)}
+                  >
+                    <RotateCcw size={16} /> Repetir tarea
+                  </button>
+                </div>
+              ) : null}
+              {s.type !== "fill" && s.title && !s.hideTitle && s.type === "content" ? (
+                <h1 className="lesson-title">{s.title}</h1>
+              ) : null}
+              <Blocks
+                blocks={s.blocks}
+                fallbackTitle={s.title}
+                navigate={navigate}
+                guideId={guide.id}
+                onPlayTrack={muteLessonVoice}
+              />
+              {s.type === "quiz" ? (
+                <div className="quiz-wrap">
+                  {s.question ? <p className="quiz-q">{s.question}</p> : null}
+                  <div className="quiz-stack">
+                    {chs.map((choice, i) => {
+                      let cls = "quiz-option";
+                      if (fr.picked === i) cls += " selected";
+                      if (fr.checked && i === ansAt) cls += " correct";
+                      if (fr.checked && fr.picked === i && i !== ansAt) cls += " wrong";
+                      return (
+                        <button key={`${choice.source}:${choice.value}`} className={cls} type="button" disabled>
+                          {choice.value}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <FeedbackPanel result={fr.result} />
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
+        <div id={`ls-${stepIndex}`} className="lesson-stack-item">
         {step.doneBanner ? (
           <div className="done-banner">
             <div className="done-workspace-head">✦ Con tecnología de AI Workspace</div>
@@ -656,7 +951,7 @@ export default function Lesson() {
           </div>
         ) : null}
 
-        {step.type !== "fill" && step.title && !(step.doneBanner && step.type === "content") ? (
+        {step.type !== "fill" && step.title && !step.hideTitle && !(step.doneBanner && step.type === "content") ? (
           <h1 className="lesson-title">{step.title}</h1>
         ) : null}
 
@@ -736,11 +1031,11 @@ export default function Lesson() {
         {step.type === "fill" && (
           <div>
             <h1 className="lesson-title">{step.title}</h1>
-            {step.lead ? <p className="lesson-p">{step.lead}</p> : null}
+            <FillLead text={step.lead} />
             <div className="workspace-card">
               <div className="workspace-head">✦ Con tecnología de AI Workspace</div>
               <div className="workspace-brand">
-                <span className="gemini-mark" /> {step.workspaceBrand || "Gemini"}
+                <WorkspaceBrand name={step.workspaceBrand || guide.title || "Claude"} />
               </div>
               {!checked || fillWrong || step.lyriaPrompt ? (
                 <>
@@ -771,7 +1066,7 @@ export default function Lesson() {
                         {i < parts.length - 1 ? (
                           <button
                             type="button"
-                            className={`ws-slot${fill[i] ? " filled" : ""}${fillWrong && fill[i] && fill[i].toLowerCase() !== step.answers[i].toLowerCase() ? " bad" : ""}`}
+                            className={`ws-slot${fill[i] ? " filled" : ""}${fillWrong && fill[i] && fill[i].toLowerCase() !== step.answers[i].toLowerCase() ? " bad" : ""}${fillSolved && fill[i] ? " ok" : ""}`}
                             disabled={fillWrong || (checked && Boolean(step.lyriaPrompt))}
                             onClick={() => clearSlot(i)}
                           >
@@ -786,11 +1081,13 @@ export default function Lesson() {
                 <div className="ws-thread">
                   <div className="ws-row">
                     <span className="ws-avatar user" aria-hidden />
-                    <p>{filledPrompt(step, fill)}</p>
+                    <p className="ws-user-prompt">{filledPrompt(step, fill)}</p>
                   </div>
                   {step.resultImage || step.resultVideo || step.simReply || step.lyriaPrompt ? (
                     <div className="ws-row">
-                      <span className="gemini-mark" />
+                      <span className="ws-ai-mark">
+                        <AiIcon id={brandIconId(step.workspaceBrand || guide.title)} size={18} />
+                      </span>
                       <div className="ws-out">
                         {step.lyriaPrompt || step.resultVideo ? (
                           <div className="ws-result-media">
@@ -814,7 +1111,7 @@ export default function Lesson() {
                         {step.resultImage ? (
                           <img src={step.resultImage} alt="Resultado del prompt" className="ws-result-img" />
                         ) : null}
-                        <SimReply reply={step.simReply} />
+                        <SimReply reply={enrichSimReply(step)} animate />
                       </div>
                     </div>
                   ) : null}
@@ -832,16 +1129,15 @@ export default function Lesson() {
                       </button>
                     ))}
                 </div>
-                {step.hint ? <p className="muted" style={{ fontSize: 13, marginTop: 10 }}>{step.hint}</p> : null}
               </>
             ) : null}
             {fillWrong ? (
-              <div className="fill-wrong">
+              <div className="fill-wrong almost">
                 <span className="fill-wrong-icon" aria-hidden>
-                  <X size={18} strokeWidth={3} />
+                  <Check size={18} strokeWidth={3} />
                 </span>
                 <div>
-                  <strong>Incorrecto</strong>
+                  <strong>Casi correcto</strong>
                   <p>¡Ya casi! Revisa los pasos e inténtalo de nuevo</p>
                 </div>
               </div>
@@ -850,6 +1146,7 @@ export default function Lesson() {
             ) : null}
           </div>
         )}
+        </div>
       </div>
 
       <div className="phone-col lesson-dock">

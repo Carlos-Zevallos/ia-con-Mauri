@@ -13,10 +13,10 @@ export default function Explore() {
         <ChevronLeft size={18} /> Volver
       </button>
       <h1 className="section-title" style={{ fontFamily: "var(--font-display)", margin: "8px 0 6px" }}>
-        Explora herramientas de IA
+        Rutas para practicar
       </h1>
       <p className="muted" style={{ marginBottom: 18, fontSize: 14 }}>
-        Todas las rutas con lecciones de esta app, al estilo de Coursiv.
+        Acceso rápido a cada curso: lecciones, horas y el oficio, como en Coursiv.
       </p>
 
       <div className="explore-ai-grid">

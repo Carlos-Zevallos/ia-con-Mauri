@@ -1,34 +1,72 @@
-import { track } from "./kit.js";
+import { coursivFlow } from "./kit.js";
 
-const conoce = track({
+const img = (file) => ({ kind: "image", src: `/lessons/chatgpt/${file}?v=7` });
+const B = "ChatGPT";
+const q = (n) => `/lessons/chatgpt/q${n}.png?v=7`;
+
+const conoce = coursivFlow({
   id: "conoce",
-  title: "Para qué sirve un chat de IA (de verdad)",
-  blurb: "No es un oráculo. Es un borrador que acelera si le das contexto.",
-  scene: "desk",
-  brand: "ChatGPT",
-  hook: [
-    "Piensa en el último mail que dejaste a medias: sabías el tono, el dato y el límite de palabras, pero te trabaste en la primera frase. Un chat de IA no “sabe” tu trabajo. Completa a partir de lo que le pegas.",
-    "Si omites para quién es el mensaje, el tono o el largo, rellena con frases genéricas. En esta ruta vas a armar pedidos para mails, resúmenes e ideas que sí puedas pegar en la chamba.",
+  title: "Conoce ChatGPT",
+  blurb: "Qué es y cómo pedir mails y borradores del día a día",
+  brand: B,
+  hero: img("conoce.png"),
+  ui: img("03.png"),
+  problemImg: q(1),
+  open: [
+    "Piensa en el último mail que dejaste a medias: sabías el tono, el dato y el límite de palabras, pero te trabaste en la primera frase.",
+    "Si esto te suena familiar, ChatGPT es la mesa para ese oficio. No es un oráculo. Completa a partir de lo que le pegas. En esta guía, como en Coursiv, vas a armar pedidos para el día a día: mails, resúmenes e ideas que sí puedas usar.",
   ],
-  body: {
-    title: "Tres piezas que cambian el resultado",
-    text: "ChatGPT predice el siguiente texto. Tú recortas el espacio de lo posible con rol, pedido y límites. Sin una de las tres, improvisa un brochure.",
+  quiz1: {
+    question: "¿Cuál es el mayor problema cuando pides “hazme un correo para clientes” sin más?",
+    options: [
+      "Que ChatGPT no habla español",
+      "Que el modelo rellena con frases genéricas porque no sabe quién habla, para quién ni el formato",
+      "Que el archivo pesa demasiado",
+    ],
+    answer: 1,
+    explain: "Así es. Sin rol, audiencia ni formato, improvisa un brochure. El trío recorta el relleno.",
   },
-  bullets: [
+  meetTitle: "Conoce ChatGPT",
+  meetText:
+    "ChatGPT es el asistente de OpenAI para tareas del día a día: redactar, reescribir, resumir e idear. Predice el siguiente texto. Tú recortas el espacio de lo posible con rol, pedido y límites.",
+  meetList: [
     "Rol: quién finge ser (copy de tienda, analista, editor)",
     "Pedido: qué tiene que entregar (mail, tabla, 5 viñetas)",
     "Límites: tono, idioma, largo, lo prohibido",
   ],
-  quiz: {
-    question: "¿Qué le falta a este pedido? “Hazme un correo para clientes.”",
+  pair: {
+    title: "Revisión de capacidades",
+    card: {
+      lead: "Tomando en cuenta lo anterior, decide si ChatGPT podría trabajar con este prompt.",
+      prompt: "Eres copy de una tienda chica. Reescribe este mail en tono cercano, máximo 80 palabras, un CTA claro.",
+    },
+    question: "¿ChatGPT podría trabajar con este prompt?",
+    options: ["Sí, ChatGPT puede hacerlo", "No, esto es demasiado complejo"],
+    answer: 0,
+    explain:
+      "Buen punto. Hay rol, pedido y un límite. Eso es trabajo del día a día: un borrador que tú revisas antes de enviar.",
+  },
+  discovery:
+    "ChatGPT destaca cuando le das contexto. En lugar de “escríbeme algo”, pegas el borrador, dices para quién es y cómo debe sentirse. Eso recorta el relleno.",
+  exampleTitle: "Cómo funciona en la práctica",
+  exampleText:
+    "Imagina que Ana dejó un termo en el carrito. Tú tienes el dato y el tono. En lugar de abrir cada frase a mano, le pegas el contexto a ChatGPT y pides un mail corto.",
+  exampleList: [
+    "Quién eres (copy de la tienda)",
+    "Qué debe salir (mail + asunto)",
+    "Límite de palabras y un CTA",
+  ],
+  exampleImg: img("conoce-b.png"),
+  multi: {
+    title: "Qué recorta el relleno",
+    question: "Para consolidar, ¿qué hace útil un pedido a ChatGPT?",
     options: [
-      "Nada, está perfecto",
-      "Quién habla, para quién, tono y formato",
-      "El nombre del proveedor de internet",
-      "Una foto de perfil",
+      "Decir quién habla y para quién es el texto",
+      "Pedir un formato concreto (mail, tabla, viñetas)",
+      "Poner un límite: tono, largo o lo que no debe incluir",
     ],
-    answer: 1,
-    explain: "Sin rol, audiencia ni formato, el modelo rellena. El trío recorta el relleno.",
+    answers: [0, 1, 2],
+    explain: "Las tres piezas juntas. El adjetivo “mejor” no recorta nada.",
   },
   practice: {
     title: "Arma un mail que no suene a robot",
@@ -40,60 +78,82 @@ const conoce = track({
       intro: "Aquí va un borrador listo para pegar. Revisa nombres y la fecha antes de mandarlo.",
       sections: [
         { title: "Asunto", text: "Tu pedido sigue apartado — 80 palabras, un botón." },
-        { title: "Cuerpo", text: "Hola Ana, dejaste el termo mate en el carrito. Lo apartamos hasta mañana a las 12. Si quieres, termina el pago aquí. Cualquier duda, responde este mail." },
+        {
+          title: "Cuerpo",
+          text: "Hola Ana, dejaste el termo mate en el carrito. Lo apartamos hasta mañana a las 12. Si quieres, termina el pago aquí. Cualquier duda, responde este mail.",
+        },
       ],
-    },
-    review: {
-      question: "¿Qué hizo útil este pedido?",
-      options: [
-        "Que era corto",
-        "Rol, tono y un límite de palabras claros",
-        "Que usó emojis",
-      ],
-      answer: 1,
-      explain: "Las tres piezas le quitan espacio al relleno. El adjetivo “mejor” no.",
     },
   },
-  close: {
-    tip: "rol + pedido + límites. Tres piezas y ya suena a humano.",
-    items: [
-      "Pega el borrador real, no un “escríbeme algo”",
-      "Di para quién es y cómo debe sentirse",
-      "Tú editas datos y voz antes de enviar",
+  review: {
+    question: "Después de ver la respuesta, ¿qué hizo útil este pedido?",
+    options: [
+      "Que era corto, así ChatGPT lo procesa más rápido",
+      "Rol, tono y un límite de palabras claros",
+      "Que usó emojis",
     ],
+    answer: 1,
+    explain: "Correcto. Las tres piezas le quitan espacio al relleno.",
   },
+  discovery2:
+    "La fórmula para ChatGPT en el día a día: rol + pedido + límites. En las próximas lecciones vas a modos, imágenes, Projects y GPTs. Este trío es el punto de partida.",
+  closeItems: [
+    "Pega el borrador real, no un “escríbeme algo”",
+    "Di para quién es y cómo debe sentirse",
+    "Tú editas datos y voz antes de enviar",
+  ],
 });
 
-const modos = track({
+const modos = coursivFlow({
   id: "modos",
-  title: "Modos y funciones",
-  blurb: "Chat, voz, búsqueda y el modelo que eliges cambian el resultado.",
-  scene: "desk",
-  brand: "ChatGPT",
-  hook: [
-    "ChatGPT no es un solo botón. Hay chat de texto, voz, búsqueda con fuentes, subida de archivos y distintos modelos. Elegir mal el modo es como mandar un WhatsApp por correo certificado: llega, pero tarde y caro.",
-    "En el día a día: texto para redactar, búsqueda cuando el dato tiene que ser de este año, archivos cuando el contexto ya está en un PDF.",
+  title: "Descubre modos y funciones",
+  blurb: "Chat, voz, búsqueda y archivos: elige el modo, no el modelo por aburrimiento",
+  brand: B,
+  hero: img("modos.png"),
+  ui: img("modos-b.png"),
+  problemImg: q(2),
+  open: [
+    "ChatGPT no es un solo botón. Hay chat de texto, voz, búsqueda con fuentes, subida de archivos y distintos modelos.",
+    "Elegir mal el modo es como mandar un WhatsApp por correo certificado: llega, pero tarde y caro. Coursiv llama a esta lección Discovering Modes & Features por eso.",
   ],
-  body: {
-    title: "Qué modo para qué",
-    text: "No cambies de modelo cada renglón. Cambia de modo cuando cambia la tarea.",
-  },
-  bullets: [
-    "Chat: mails, recaps, ideas, reescritura",
-    "Búsqueda: precios, noticias, fechas; luego abres el enlace",
-    "Archivos: PDF o tabla que no quieres reescribir a mano",
-    "Voz: dictar un brief cuando vas en el camión",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Cuándo conviene la búsqueda y no el chat a ciegas?",
     options: [
       "Para un chiste interno",
       "Cuando el dato puede haber cambiado este mes",
       "Para cambiar el tono de un mail que ya tienes",
-      "Nunca",
     ],
     answer: 1,
     explain: "El chat inventa con lo que aprendió. La búsqueda trae pistas; tú abres la fuente.",
+  },
+  meetTitle: "Qué modo para qué",
+  meetText: "No cambies de modelo cada renglón. Cambia de modo cuando cambia la tarea.",
+  meetList: [
+    "Chat: mails, recaps, ideas, reescritura",
+    "Búsqueda: precios, noticias, fechas; luego abres el enlace",
+    "Archivos: PDF o tabla que no quieres reescribir a mano",
+    "Voz: dictar un brief cuando vas en el camión",
+  ],
+  pair: {
+    card: {
+      lead: "Decide si este pedido pide el modo correcto.",
+      prompt: "Usa búsqueda. Busca el costo de un dominio .mx en 2026 y dame una tabla de 3 registrars con fuente.",
+    },
+    question: "¿Este prompt usa el modo adecuado?",
+    options: ["Sí: dato vivo, año y formato", "No: debería ser solo chat"],
+    answer: 0,
+    explain: "Precio de este año. Sin búsqueda, sale un párrafo de 2019.",
+  },
+  discovery: "Cambia de modo cuando cambia la tarea, no de modelo por aburrimiento.",
+  exampleTitle: "Un dato de este año",
+  exampleText: "Necesitas el precio de un dominio .mx hoy, no un ensayo. Activa búsqueda, nombra el año y pide tabla.",
+  exampleList: ["Modo: búsqueda", "Año explícito", "Entregable: tabla con fuente"],
+  exampleImg: img("modos-b.png"),
+  multi: {
+    question: "¿Qué recorta el relleno al pedir un dato vivo?",
+    options: ["Nombrar el modo (búsqueda)", "Poner el año", "Pedir un formato (tabla, no ensayo)"],
+    answers: [0, 1, 2],
+    explain: "Modo, fecha y entregable. Sin eso, sale un párrafo viejo.",
   },
   practice: {
     title: "Elige modo y pedido",
@@ -108,49 +168,67 @@ const modos = track({
         { title: "Qué falta", text: "Tú confirmas en el sitio del registrar. ChatGPT no cobra el dominio." },
       ],
     },
-    review: {
-      question: "¿Qué recortó el relleno?",
-      options: ["Pedir “infórmame”", "Modo + año + formato", "Un saludo largo"],
-      answer: 1,
-      explain: "Modo, fecha y entregable. Sin eso, sale un párrafo de 2019.",
-    },
   },
-  close: {
-    tip: "cambia de modo cuando cambia la tarea, no de modelo por aburrimiento.",
-    items: ["Texto para redactar", "Búsqueda para datos vivos", "Archivo cuando el contexto ya existe"],
+  review: {
+    question: "¿Qué recortó el relleno?",
+    options: ["Pedir “infórmame”", "Modo + año + formato", "Un saludo largo"],
+    answer: 1,
+    explain: "Modo, fecha y entregable.",
   },
+  discovery2: "Texto para redactar. Búsqueda para datos vivos. Archivo cuando el contexto ya existe.",
+  closeItems: ["Texto para redactar", "Búsqueda para datos vivos", "Archivo cuando el contexto ya existe"],
 });
 
-const imagenes = track({
+const imagenes = coursivFlow({
   id: "imagenes",
-  title: "Imágenes con ChatGPT",
-  blurb: "Sujeto, lugar y luz. El copy se escribe después, en otro lado.",
-  scene: "camera",
-  brand: "ChatGPT",
-  hook: [
+  title: "Generar imágenes con ChatGPT",
+  blurb: "Sujeto, lugar y luz. El copy se escribe después, en otro lado",
+  brand: B,
+  hero: img("imagenes.png"),
+  ui: img("imagenes-b.png"),
+  problemImg: q(3),
+  open: [
     "Puedes pedir una imagen desde el mismo chat. “Hazla profesional” no se dibuja. Se dibuja un vaso sobre mármol, luz de ventana a la derecha, sin letras.",
-    "ChatGPT (y DALL·E dentro del chat) inventa palabras en la foto. Si el post lleva copy, ponlo en Canva, no en la imagen.",
+    "Coursiv llama a esto Image Generation with ChatGPT. DALL·E vive dentro del chat. Inventa palabras en la foto: si el post lleva copy, ponlo en Canva, no en la imagen.",
   ],
-  body: {
-    title: "La escena se describe, no se adjetiva",
-    text: "Sujeto, lugar, luz, encuadre y una lista de no. Una palanca por intento si sale mal.",
-  },
-  bullets: [
-    "Qué hay en cuadro",
-    "De dónde viene la luz",
-    "Foto o ilustración",
-    "Veta: texto, marcas de agua, manos de más",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Qué suele arruinar más una imagen generada?",
     options: [
       "Nombrar el sujeto",
       "Dejar que aparezcan letras y pedir “ultra 8k”",
       "Decir de dónde viene la luz",
-      "Usar 50 mm",
     ],
     answer: 1,
     explain: "El 8k no aporta. Las letras inventadas sí ensucian.",
+  },
+  meetTitle: "La escena se describe, no se adjetiva",
+  meetText: "Sujeto, lugar, luz, encuadre y una lista de no. Una palanca por intento si sale mal.",
+  meetList: [
+    "Qué hay en cuadro",
+    "De dónde viene la luz",
+    "Foto o ilustración",
+    "Veta: texto, marcas de agua, manos de más",
+  ],
+  pair: {
+    card: {
+      lead: "¿Este prompt se puede dibujar?",
+      prompt: "Foto de un termo mate sobre mesa de pino, luz de ventana a la izquierda, 50 mm, sin texto.",
+    },
+    question: "¿ChatGPT / DALL·E puede trabajar con este prompt?",
+    options: ["Sí: sujeto, lugar y luz", "No: falta decir “ultra 8k”"],
+    answer: 0,
+    explain: "Se puede imaginar. El slogan vacío no.",
+  },
+  discovery: "Sujeto + lugar + luz. Las letras déjalas para Canva.",
+  exampleTitle: "Una toma de producto",
+  exampleText: "Un producto real, no un collage de stock. Nombra el objeto, la superficie y de dónde viene la luz.",
+  exampleList: ["Termo mate", "Mesa de pino", "Ventana a la izquierda", "Sin texto en la imagen"],
+  exampleImg: img("imagenes.png"),
+  multi: {
+    question: "¿Qué hace dibujable un pedido de imagen?",
+    options: ["Nombrar el sujeto", "Decir el lugar y la luz", "Vetar letras y marcas de agua"],
+    answers: [0, 1, 2],
+    explain: "La escena. No el adjetivo “profesional”.",
   },
   practice: {
     title: "Describe la toma",
@@ -160,511 +238,522 @@ const imagenes = track({
     slots: ["sujeto", "lugar", "luz"],
     resultImage: "/lessons/results/audifonos.png",
     simReply: { intro: "Toma lista. Si el copy va encima, ábrelo en Canva AI. La imagen no escribe." },
-    review: {
-      question: "¿Por qué este pedido se puede dibujar?",
-      options: ["Porque dice “bonito”", "Porque nombra sujeto, lugar y luz", "Porque pide 8k"],
-      answer: 1,
-      explain: "Se puede imaginar. El slogan vacío no.",
-    },
   },
-  close: {
-    tip: "sujeto + lugar + luz. Las letras déjalas para Canva.",
-    items: ["Una palanca por reintento", "Veta el texto en la imagen", "El post se arma en dos piezas"],
+  review: {
+    question: "¿Por qué este pedido se puede dibujar?",
+    options: ["Porque dice “bonito”", "Porque nombra sujeto, lugar y luz", "Porque pide 8k"],
+    answer: 1,
+    explain: "Se puede imaginar. El slogan vacío no.",
   },
+  discovery2: "Una palanca por reintento. El post se arma en dos piezas: imagen aquí, copy en Canva.",
+  closeItems: ["Una palanca por reintento", "Veta el texto en la imagen", "El post se arma en dos piezas"],
 });
 
-const projects = track({
+const projects = coursivFlow({
   id: "projects",
-  title: "Projects: no empieces de cero",
-  blurb: "Un Project guarda archivos, instrucciones y el hilo. El chat suelto se pierde.",
-  scene: "docs",
-  brand: "ChatGPT",
-  hook: [
-    "Si cada lunes reescribes “eres mi editor y el tono es cercano”, estás pagando el mismo peaje. Projects guarda el brief, los PDFs y las instrucciones para no repetirlas.",
-    "Úsalo cuando el trabajo se parece semana a semana: recaps, reportes, una marca, un cliente.",
+  title: "Funciones avanzadas: Projects",
+  blurb: "Un Project guarda archivos, instrucciones y el hilo. El chat suelto se pierde",
+  brand: B,
+  hero: img("projects.png"),
+  ui: img("projects-b.png"),
+  problemImg: q(4),
+  open: [
+    "Si cada lunes reescribes “eres mi editor y el tono es cercano”, estás pagando el mismo peaje.",
+    "Coursiv llama a esto Advanced Features: Projects. El Project guarda el brief, los PDFs y las instrucciones para no repetirlas. Úsalo cuando el trabajo se parece semana a semana.",
   ],
-  body: {
-    title: "Qué va dentro del Project",
-    text: "No es un folder mágico. Es contexto fijo + conversaciones encima. Si el PDF cambia, súbelo de nuevo.",
-  },
-  bullets: [
-    "Instrucciones: rol, tono, formato de salida",
-    "Archivos: el reporte, la guía de voz, la tabla de precios",
-    "Chats: cada tarea del mes, no un hilo eterno",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Qué NO es un Project?",
     options: [
       "Un lugar para el brief que se repite",
       "Un chat suelto que se olvida a la semana",
-      "Un contenedor de PDFs de un cliente",
-      "Instrucciones que no quieres pegar cada vez",
+      "Archivos + instrucciones + conversaciones del caso",
     ],
     answer: 1,
-    explain: "El chat suelto no hereda el brief. El Project sí.",
+    explain: "El chat suelto se pierde. El Project sostiene el oficio.",
+  },
+  meetTitle: "Qué va dentro del Project",
+  meetText: "No es un folder mágico. Es contexto fijo + conversaciones encima. Si el PDF cambia, súbelo de nuevo.",
+  meetList: [
+    "Instrucciones: rol, tono, formato de salida",
+    "Archivos: el reporte, la guía de voz, la tabla de precios",
+    "Chats: cada tarea del mes, no un hilo eterno",
+  ],
+  discovery: "El brief vive en el Project. El chat de marzo no es un sistema.",
+  exampleTitle: "Un recap de cada lunes",
+  exampleText: "Mismas instrucciones, otras notas. El Project evita reescribir el rol cada semana.",
+  exampleList: ["Instrucciones fijas arriba", "Notas de esta semana pegadas", "Salida: tabla de decisiones"],
+  exampleImg: img("projects-b.png"),
+  multi: {
+    question: "¿Qué sostiene un Project?",
+    options: ["Instrucciones que se repiten", "Archivos del caso, no de toda la empresa", "Un chat por tarea, no un hilo eterno"],
+    answers: [0, 1, 2],
+    explain: "Contexto fijo. Tareas encima.",
   },
   practice: {
-    title: "Instrucciones del Project",
-    lead: "Van arriba. El caso del lunes va abajo.",
-    template: "Rol: {blank}. Formato: {blank}. Nunca {blank}.",
-    answers: ["editor de una pyme de comida", "tabla de decisiones / dueño / fecha", "inventes cifras"],
-    slots: ["rol", "formato", "veto"],
-    simReply: {
-      intro: "Instrucciones guardadas. El próximo recap solo pega las notas nuevas.",
-      sections: [{ title: "Qué se hereda", text: "Rol, tabla y el veto de cifras." }],
-    },
-    review: {
-      question: "¿Dónde van las reglas?",
-      options: ["Al final del chat, como nota", "En las instrucciones del Project, antes del caso", "En un emoji"],
-      answer: 1,
-      explain: "Si van al final, el modelo ya improvisó.",
-    },
+    title: "Arma el Project de los lunes",
+    lead: "Brief fijo. Notas nuevas.",
+    template: "Project {blank}. Instrucciones: tono cercano, tabla. Esta semana pega {blank} y entrega {blank}.",
+    answers: ["recaps de tienda", "las notas del lunes", "decisiones, dueño, fecha"],
+    slots: ["nombre", "insumo", "salida"],
+    simReply: { intro: "Project listo. El rol no se vuelve a escribir. Solo cambian las notas." },
   },
-  close: {
-    tip: "el brief se guarda. Las notas de esta semana se pegan.",
-    items: ["Un Project por cliente o ritual", "Archivos al día", "Chats cortos, no novelas"],
+  review: {
+    question: "¿Por qué no un chat suelto cada lunes?",
+    options: ["Queda más creativo", "Porque el brief se pierde y vuelves a pagar el peaje", "Por tokens"],
+    answer: 1,
+    explain: "El Project guarda el oficio. El chat suelto no.",
   },
+  discovery2: "Si el PDF cambia, súbelo de nuevo. El Project no adivina la versión nueva.",
+  closeItems: ["Instrucciones fijas", "Archivos del caso", "Un chat por tarea"],
 });
 
-const gpts = track({
+const gpts = coursivFlow({
   id: "gpts",
-  title: "Custom GPTs: un empleado con manual",
-  blurb: "Un GPT propio es un rol + archivos + lo que nunca debe hacer.",
-  scene: "product",
-  brand: "ChatGPT",
-  hook: [
-    "Un Custom GPT no es “más inteligente”. Es más obediente: siempre el mismo tono, el mismo formato, los mismos vetos. Sirve cuando otra persona del equipo también lo va a usar.",
-    "Si solo lo usas tú una vez al mes, una instrucción en un Project alcanza. Si lo usa el equipo cada día, el GPT evita que cada quien invente el prompt.",
+  title: "Funciones avanzadas: GPTs personalizados",
+  blurb: "Un GPT es un empleado con instrucciones. No es un plugin mágico",
+  brand: B,
+  hero: img("gpts.png"),
+  ui: img("gpts-b.png"),
+  problemImg: q(1),
+  open: [
+    "Coursiv llama a esto Advanced Features: Custom GPTs. Un GPT guarda instrucciones, conocimiento y a veces acciones. Es un empleado con ficha, no un chat anónimo.",
+    "Sirve cuando varias personas piden lo mismo: recap, tono de marca, checklist. Si lo usas una vez, un Project alcanza.",
   ],
-  body: {
-    title: "El manual cabe en tres cajas",
-    text: "Nombre claro, instrucciones duras, archivos de referencia. Sin ejemplos de tu voz, copia un tono de brochure.",
-  },
-  bullets: [
-    "Qué hace (un trabajo, no diez)",
-    "Cómo responde (tabla, mail, viñetas)",
-    "Qué no hace (cifras inventadas, tono de anuncio)",
-  ],
-  quiz: {
-    question: "¿Cuándo vale la pena un Custom GPT?",
+  quiz1: {
+    question: "¿Cuándo un GPT y no un Project?",
     options: [
-      "Para un chiste de una vez",
-      "Cuando el mismo brief se usa todos los días y lo toca más de una persona",
-      "Para reemplazar a legal",
-      "Nunca, es adorno",
+      "Siempre, queda más moderno",
+      "Cuando el mismo oficio lo van a usar varias personas o muchas veces",
+      "Nunca, son lo mismo",
     ],
     answer: 1,
-    explain: "Se paga el armado una vez. Se cobra en consistencia.",
+    explain: "El GPT se comparte. El Project es tu mesa.",
+  },
+  meetTitle: "Qué lleva un GPT útil",
+  meetText: "Instrucciones duras, ejemplos de voz, y qué no debe hacer. Sin eso, es un chat con nombre lindo.",
+  meetList: [
+    "Rol y formato de salida",
+    "Ejemplos de “así sí / así no”",
+    "Límites: no inventar precios ni plazos",
+    "Conocimiento: solo lo que pegaste",
+  ],
+  discovery: "Un GPT sin ejemplos de voz es un brochure con gorra.",
+  exampleTitle: "El recap de la tienda",
+  exampleText: "Tres personas piden el mismo recap. El GPT ya sabe el formato. Ellas pegan las notas.",
+  exampleList: ["Nombre: Recap tienda", "Salida: tabla", "Veto: no inventar fechas"],
+  exampleImg: img("gpts-b.png"),
+  multi: {
+    question: "¿Qué hace reutilizable un GPT?",
+    options: ["Instrucciones duras", "Ejemplos de voz", "Un veto de no inventar"],
+    answers: [0, 1, 2],
+    explain: "Ficha de empleado. No un apodo.",
   },
   practice: {
-    title: "Instrucciones del GPT",
-    lead: "Un solo oficio. Un formato. Un veto.",
-    template: "Eres {blank}. Entregas {blank}. Nunca {blank}.",
-    answers: ["el editor de recaps de la pyme", "una tabla de 4 columnas", "inventes dueños ni fechas"],
-    slots: ["oficio", "formato", "veto"],
-    simReply: {
-      intro: "GPT listo para el equipo. Prueba con notas reales antes de compartirlo.",
-      sections: [{ title: "Prueba", text: "Pega un recap de esta semana y mira si respeta el veto." }],
-    },
-    review: {
-      question: "¿Qué evita que el GPT se vaya de tema?",
-      options: ["Un nombre creativo", "Un oficio, un formato y un veto", "Pedile que sea “pro”"],
-      answer: 1,
-      explain: "Tres cajas. El adjetivo “pro” no es una caja.",
-    },
+    title: "Ficha del GPT",
+    lead: "Instrucciones que otra persona pueda pegar.",
+    template: "GPT {blank}. Siempre entrega {blank}. Nunca {blank}.",
+    answers: ["Recap de tienda", "tabla decisión-dueño-fecha", "inventes plazos"],
+    slots: ["nombre", "formato", "veto"],
+    simReply: { intro: "Ficha lista. Quien pegue notas recibe la misma tabla. Los plazos vacíos quedan por confirmar." },
   },
-  close: {
-    tip: "un GPT = un trabajo. Si hace tres, se desarma.",
-    items: ["Ejemplos de tu voz dentro", "Prueba con un caso real", "Comparte cuando ya no improvisé"],
+  review: {
+    question: "¿El GPT inventa el plazo si no estaba en las notas?",
+    options: ["Sí, para completar", "No: el veto lo manda a “por confirmar”", "Solo los viernes"],
+    answer: 1,
+    explain: "El veto es el producto.",
   },
+  discovery2: "Si lo usas una vez, un Project alcanza. El GPT es para repetir y compartir.",
+  closeItems: ["Ficha con veto", "Ejemplos de voz", "Se comparte el oficio, no el chat"],
 });
 
-const productividad = track({
+const productividad = coursivFlow({
   id: "productividad",
-  title: "Productividad del día a día",
-  blurb: "Listas, recaps y recordatorios. ChatGPT acelera el borrador, no la firma.",
-  scene: "meeting",
-  brand: "ChatGPT",
-  hook: [
-    "La chamba no es un ensayo. Es una lista de qué sigue, quién y cuándo. Si le pides “resumí la junta”, te suelta una novelita. Pide tabla.",
-    "Automatizar el borrador está bien. Automatizar el envío sin leerte el texto no.",
+  title: "Productividad y tareas del día",
+  blurb: "Listas, recaps y recordatorios. Un molde, otras notas",
+  brand: B,
+  hero: img("productividad.png"),
+  ui: img("productividad-b.png"),
+  problemImg: q(2),
+  open: [
+    "Coursiv: Productivity & Daily Task Automation. La productividad aquí no es un gurú. Es convertir notas sueltas en una lista que se puede tachar.",
+    "Guarda un pedido de recap y solo cambia las notas. Mismo formato, menos fricción.",
   ],
-  body: {
-    title: "Pedidos que sí reutilizas el lunes",
-    text: "Guarda 3 plantillas: recap, mail incómodo, lista del día. Cambias nombres y fechas. El molde se queda.",
-  },
-  bullets: [
-    "Recap: decisiones, dueños, fechas, riesgos",
-    "Mail: rol + tono + CTA + máximo de palabras",
-    "Día: 5 tareas, 25 minutos, un bloque sin chat",
-  ],
-  quiz: {
-    question: "Para un recap de junta, ¿qué formato ayuda más?",
-    options: ["Un cuento de 900 palabras", "Decisiones, acciones y responsables", "Solo stickers", "Un script de Python"],
+  quiz1: {
+    question: "¿Qué automatizas primero?",
+    options: ["Toda la semana", "Un molde que ya hiciste a mano dos veces", "El cobro sin leer"],
     answer: 1,
-    explain: "El equipo quiere saber qué sigue, no prosa.",
+    explain: "Lo repetible. Lo nuevo se piensa.",
+  },
+  meetTitle: "Un molde para cada lunes",
+  meetText: "Convierte notas en tabla: decisión, dueño, fecha, riesgo. Si falta un dato, pon “por confirmar”.",
+  meetList: ["Mismo pedido", "Otras notas", "Tú tachas, el chat no"],
+  discovery: "El molde se pega. El chat se pierde.",
+  exampleTitle: "Notas de la junta",
+  exampleText: "Tres decisiones, un dueño borroso. El pedido pide tabla y huecos honestos.",
+  exampleList: ["Decisión", "Dueño", "Fecha", "Por confirmar si falta"],
+  exampleImg: img("productividad-b.png"),
+  multi: {
+    question: "¿Qué va en el recap útil?",
+    options: ["Una decisión por fila", "Un dueño o “por confirmar”", "Una fecha o un hueco visible"],
+    answers: [0, 1, 2],
+    explain: "Se puede tachar. El párrafo épico no.",
   },
   practice: {
-    title: "De notas caóticas a recap",
-    lead: "Pega las notas. Pide tabla, no novelita.",
-    template: "Convierte estas notas en tabla: {blank}, {blank} y {blank}. Si falta un dato, pon “por confirmar”.",
+    title: "El recap de los lunes",
+    lead: "Mismo molde. Otras notas.",
+    template: "Convierte estas notas en tabla: {blank}, {blank}, {blank}. Si falta un dato, pon por confirmar.",
     answers: ["decisión", "dueño", "fecha"],
     slots: ["col 1", "col 2", "col 3"],
-    simReply: {
-      intro: "Recap en cuatro filas. Lo que no estaba en las notas quedó como “por confirmar”.",
-      sections: [
-        { title: "Decisión", text: "Subir el precio del combo 8% — Ana — viernes" },
-        { title: "Pendiente", text: "Hablar con el proveedor — por confirmar — lunes" },
-      ],
-    },
-    review: {
-      question: "¿Por qué “por confirmar” es mejor que inventar?",
-      options: ["Queda más largo", "No fabrica un dueño que no existía", "Se ve más formal"],
-      answer: 1,
-      explain: "Inventar un responsable es peor que un hueco honesto.",
-    },
+    simReply: { intro: "Tres filas. El dueño de la 2 quedó por confirmar. Nadie inventó un nombre." },
   },
-  close: {
-    tip: "pide tabla, no novelita. El pasillo no lee 900 palabras.",
-    items: ["Tres plantillas en un archivo", "Tú pones cifras reales", "El chat no firma el mail"],
+  review: {
+    question: "¿Por qué la tabla y no un acta de 800 palabras?",
+    options: ["Queda más serio", "Porque se puede asignar y tachar", "Por SEO"],
+    answer: 1,
+    explain: "La lista se trabaja. El ladrillo se ignora.",
   },
+  discovery2: "Automatiza el borrador del recap. No la firma de la decisión.",
+  closeItems: ["Un molde", "Notas pegadas", "Tú tachas"],
 });
 
-const research = track({
+const research = coursivFlow({
   id: "research",
-  title: "Investigación y análisis",
-  blurb: "Acota país, año y para quién. Luego contrastas dos fuentes.",
-  scene: "search",
-  brand: "ChatGPT",
-  hook: [
-    "“Mejores prácticas de marketing” es infinito. “México, 2026, pymes de comida” se puede checar. ChatGPT con búsqueda acelera; tú abres el enlace.",
-    "Si las dos fuentes se contradicen, anótalo. No elijas la más dramática.",
+  title: "Investigación de mercado y análisis",
+  blurb: "País, año y fuente. No “el mercado global”",
+  brand: B,
+  hero: img("research.png"),
+  ui: img("research-b.png"),
+  problemImg: q(3),
+  open: [
+    "Coursiv: Market Research & Analysis. “¿Cómo está el mercado?” no se audita. “Termos en México, 2026, precio y rival, con fuente” sí.",
+    "Activa búsqueda. Pide tabla. Tú abres al menos dos enlaces.",
   ],
-  body: {
-    title: "La pregunta tiene recortes",
-    text: "Fecha, lugar, audiencia y qué NO quieres (opinión, tutorial de 2019, un país que no es el tuyo).",
-  },
-  bullets: [
-    "Año y país",
-    "Para quién es el dato",
-    "Formato: tabla, 5 hallazgos, riesgos",
-    "Pide fuentes y ábrelas",
-  ],
-  quiz: {
-    question: "¿Qué haces si el chat cita un blog sin fecha?",
-    options: ["Lo tomas como ley", "Abres otra fuente y buscas fecha", "Lo retuiteas", "Le pides un poema"],
+  quiz1: {
+    question: "¿Qué hace útil un recorte de mercado?",
+    options: ["Que sea exhaustivo", "País, año y una fuente por fila", "Un adjetivo disruptivo"],
     answer: 1,
-    explain: "Sin fecha, es pista, no hecho.",
+    explain: "Se checa. El ensayo global no.",
+  },
+  meetTitle: "Una tabla que se puede checar",
+  meetText: "Segmento, dato, año, de dónde salió. Si no hay fuente, fila en gris.",
+  meetList: ["Geografía y año", "Unidad (MXN, %, piezas)", "Fuente o por confirmar", "No promedios de otro país"],
+  discovery: "País, año y fuente. El “a nivel global” se queda fuera.",
+  exampleTitle: "Termos en México, 2026",
+  exampleText: "Pegas el recorte. ChatGPT ordena. Tú abres el enlace o marcas el hueco.",
+  exampleList: ["México", "2026", "precio / rival / fuente"],
+  exampleImg: img("research-b.png"),
+  multi: {
+    question: "¿Qué pides en research con ChatGPT?",
+    options: ["Búsqueda activa", "Tabla, no ensayo", "Una fuente o “por confirmar” por fila"],
+    answers: [0, 1, 2],
+    explain: "Se audita. El párrafo “el mercado está caliente” no.",
   },
   practice: {
-    title: "Acota la búsqueda",
-    lead: "Un mercado real, no “el mundo”.",
-    template: "Investiga {blank} en {blank} para {blank}. Tabla: hallazgo, fuente, riesgo.",
-    answers: ["precios de menú digital", "México 2026", "pymes de comida"],
-    slots: ["tema", "lugar y año", "audiencia"],
-    simReply: {
-      intro: "Tres hallazgos. Abre las dos URLs antes de armar el brief.",
-      sections: [{ title: "Riesgo", text: "Un blog sin fecha quedó marcado como pista." }],
-    },
-    review: {
-      question: "¿Qué recorta el ensayo infinito?",
-      options: ["“Dime todo”", "Tema + lugar/año + audiencia", "Pedir que sea “exhaustivo”"],
-      answer: 1,
-      explain: "Tres recortes. El mundo entero no cabe en un chat.",
-    },
+    title: "Arma la tabla de mercado",
+    lead: "Tres recortes, no un ensayo.",
+    template: "Mercado de termos en {blank}, año {blank}. Tabla: precio, rival, {blank}.",
+    answers: ["México", "2026", "fuente o por confirmar"],
+    slots: ["país", "año", "columna"],
+    simReply: { intro: "Cuatro filas. La 3 sin fuente quedó gris. El promedio de EE. UU. no entró." },
   },
-  close: {
-    tip: "pregunta con fecha y lugar, y abre al menos dos fuentes.",
-    items: ["La herramienta acelera", "Tú contrastas", "Lo sin fecha es pista"],
+  review: {
+    question: "Una fila sin fuente, ¿entra al brief?",
+    options: ["Sí, para rellenar", "No: por confirmar o se cae", "Sí si el número es redondo"],
+    answer: 1,
+    explain: "Research sin pista es adivinanza.",
   },
+  discovery2: "Tú abres el enlace. ChatGPT ordena. No firma el dato.",
+  closeItems: ["Búsqueda", "Tabla", "Tú contrastas"],
 });
 
-const marketing = track({
+const marketing = coursivFlow({
   id: "marketing",
-  title: "Contenido de marketing",
-  blurb: "Canal, caracteres y un mensaje. El sticker va al final.",
-  scene: "phone",
-  brand: "ChatGPT",
-  hook: [
-    "Instagram no es un landing. Un mail no es un reel. Di el canal, el largo y si hay emoji o no. Si no, ChatGPT escribe un manifiesto.",
-    "El mensaje se lee en un segundo. Luego el formato. El diseño no salva un texto flojo.",
+  title: "Crear contenido de marketing",
+  blurb: "Oferta, canal y CTA. No un manifiesto de marca",
+  brand: B,
+  hero: img("marketing.png"),
+  ui: img("marketing-b.png"),
+  problemImg: q(4),
+  open: [
+    "Coursiv: Creating Marketing Content. Un post no es un ensayo de propósito. Es oferta + prueba + CTA, del largo del canal.",
+    "Pega el beneficio real (no suda en la combi). Veta “revolucionar” y la urgencia falsa.",
   ],
-  body: {
-    title: "Un concepto, tres cortes",
-    text: "Pide el mismo mensaje en feed, stories y mail. No tres ideas distintas.",
-  },
-  bullets: [
-    "Una promesa",
-    "Un canal y un largo",
-    "Un CTA",
-    "Tres variaciones, eliges una",
-  ],
-  quiz: {
-    question: "¿Qué pides primero para un post?",
-    options: ["Diez stickers", "El mensaje y el formato del canal", "Un degradado", "Un sello genérico"],
+  quiz1: {
+    question: "¿Qué le falta a “hazme un post viral del termo”?",
+    options: ["Más emojis", "Oferta, canal, largo y un CTA", "Un filtro de Instagram"],
     answer: 1,
-    explain: "Mensaje + ratio. Lo demás es adorno.",
+    explain: "Viral no se pide. Se pide un canal y una frase que se entiende.",
+  },
+  meetTitle: "Pieza, no brochure",
+  meetText: "Un beneficio, un canal, un largo, un CTA. El resto es adorno.",
+  meetList: ["Quién lee (dueñas de tienda)", "Qué gana (no suda en la combi)", "Dónde se publica", "Qué debe hacer (Aparta el tuyo)"],
+  discovery: "El canal manda el largo. LinkedIn no es Stories.",
+  exampleTitle: "El 2x1 del viernes",
+  exampleText: "Oferta concreta. Canal Instagram. CTA de apartar.",
+  exampleList: ["2x1 este viernes", "Termo mate, Roma", "Aparta el tuyo"],
+  exampleImg: img("marketing.png"),
+  multi: {
+    question: "¿Qué hace publicable un pedido de marketing?",
+    options: ["Una oferta que se entiende", "El canal y el largo", "Un CTA, no un manifiesto"],
+    answers: [0, 1, 2],
+    explain: "Se puede publicar. El propósito de marca se queda en la guía.",
   },
   practice: {
-    title: "Un post que se lee ya",
-    lead: "Misma promesa, distinto corte.",
-    template: "Escribe para {blank}, máximo {blank} caracteres, {blank} emojis, un CTA.",
-    answers: ["Instagram", "120", "cero"],
-    slots: ["canal", "largo", "emoji"],
-    simReply: {
-      intro: "Tres cortes. Elige uno y no mezcles el de stories con el de mail.",
-      sections: [{ title: "Feed", text: "El termo que no suda en la combi. Pídelo hoy. Link en bio." }],
-    },
-    review: {
-      question: "¿Por qué “cero emojis” ayuda?",
-      options: ["Queda más triste", "Es un límite que el modelo respeta", "Es moda"],
-      answer: 1,
-      explain: "Un veto claro. “Sé cool” no es un veto.",
-    },
+    title: "El post del viernes",
+    lead: "Oferta, canal, CTA.",
+    template: "Post para {blank}, {blank} caracteres. Oferta: {blank}. CTA: Aparta el tuyo. Cero urgencia falsa.",
+    answers: ["Instagram", "120", "2x1 este viernes en el termo mate"],
+    slots: ["canal", "largo", "oferta"],
+    simReply: { intro: "120 caracteres. El 2x1 se lee en un segundo. Nadie “revolucionó” nada." },
   },
-  close: {
-    tip: "el texto manda: mensaje, formato y dónde se publica.",
-    items: ["Tres variaciones, una gana", "Revisa en el tamaño real", "No pidas 30 estilos"],
+  review: {
+    question: "¿Por qué vetar “revolucionar”?",
+    options: ["Queda feo", "Porque no es un hecho de la oferta", "Por el algoritmo"],
+    answer: 1,
+    explain: "La oferta se entiende. El adjetivo no vende el termo.",
   },
+  discovery2: "Una pieza por canal. No un párrafo para todos los feeds.",
+  closeItems: ["Oferta", "Canal y largo", "Un CTA"],
 });
 
-const comunicacion = track({
+const comunicacion = coursivFlow({
   id: "comunicacion",
-  title: "Comunicación que se puede mandar",
-  blurb: "Mails, mensajes internos y el tono de alguien de carne.",
-  scene: "desk",
-  brand: "ChatGPT",
-  hook: [
-    "Un mail de disculpa escrito por un modelo suena a departamento de disculpas. Pega el borrador, di si es seguimiento u oferta, y cómo quieres que se sienta la otra persona.",
-    "Si no cabe en una frase lo que debe lograr el mensaje, el modelo tampoco lo va a adivinar.",
+  title: "ChatGPT para comunicar bien",
+  blurb: "Tono, destinatario y un CTA. No un mail que suena a demanda",
+  brand: B,
+  hero: img("comunicacion.png"),
+  ui: img("comunicacion-b.png"),
+  problemImg: q(1),
+  open: [
+    "Coursiv: ChatGPT for Effective Communication. Un mail de retraso no es un descargo. Es: qué pasó, qué haces, cuándo, un CTA.",
+    "Pega el borrador real. Di el tono (directo, calmado). Veta la ironía y la urgencia falsa.",
   ],
-  body: {
-    title: "Pide palo, no palmadas",
-    text: "Agrégale: “Sé directo. Marca 3 fallas y reescribe el párrafo más flojo.” Si no dices qué está mal, ChatGPT aplaude.",
-  },
-  bullets: [
-    "Para quién es",
-    "Qué debe pasar después de leerlo",
-    "Tono: cercano, firme, sin urgencia falsa",
-    "Largo máximo",
-  ],
-  quiz: {
-    question: "¿Qué haces justo después de que la IA te suelte un texto?",
+  quiz1: {
+    question: "¿Qué suele arreglar más un mail genérico?",
     options: [
-      "Publicarlo sin leer",
-      "Ajustarlo con tus datos y tu voz",
-      "Pedir 40 versiones y tirar un dado",
-      "Cambiar de herramienta cada renglón",
+      "Pedir “hazlo viral”",
+      "Pegar el borrador, el destinatario y el límite de palabras",
+      "Añadir diez emojis",
     ],
     answer: 1,
-    explain: "La máquina acelera el borrador. Tú pones hechos, criterio y estilo.",
+    explain: "Hechos y límites recortan el relleno.",
+  },
+  meetTitle: "Tres datos que cambian el resultado",
+  meetText: "Quién eres, para quién es el texto y qué no debe incluir.",
+  meetList: ["Destinatario", "Hecho (retraso, fecha nueva)", "Tono", "Un CTA"],
+  discovery: "Si no lo dirías tú en voz alta, no lo mandes.",
+  exampleTitle: "El mail del retraso",
+  exampleText: "Una clienta espera. Hay una fecha nueva. Tono directo y calmado. 90 palabras.",
+  exampleList: ["Qué pasó", "Qué haces", "Cuándo", "Un CTA"],
+  exampleImg: img("comunicacion-b.png"),
+  multi: {
+    question: "¿Qué va en un mail de retraso útil?",
+    options: ["El hecho, sin teatro", "Una fecha nueva o “por confirmar”", "Un CTA, no un descargo"],
+    answers: [0, 1, 2],
+    explain: "Se puede responder. El manifiesto no.",
   },
   practice: {
-    title: "Reescribe con criterio",
-    lead: "Di qué falló. “Mejóralo” no es una instrucción.",
-    template: "Esta versión está {blank}. Quítale {blank} y deja un {blank} al final.",
-    answers: ["larga", "adverbios", "CTA"],
-    slots: ["falla", "qué quitar", "cierre"],
+    title: "Reescribe el mail incómodo",
+    lead: "Hechos. Tono. CTA.",
+    template: "Eres tú. Mail a {blank}, tono {blank}, máximo {blank} palabras, un CTA. Cero ironía.",
+    answers: ["una clienta que espera un retraso", "directo y calmado", "90"],
+    slots: ["quién", "tono", "largo"],
     simReply: {
-      intro: "Versión 2. 70 palabras, un botón, sin “sinceramente”.",
-      sections: [{ title: "Cambio", text: "Corté el párrafo 2. El CTA quedó en una línea." }],
-    },
-    review: {
-      question: "¿Qué convierte la segunda versión en un editor, no en un fan?",
-      options: ["Pedir “hazlo viral”", "Nombrar la falla, el recorte y el CTA", "Un emoji de aplauso"],
-      answer: 1,
-      explain: "Criterio. El fan aplaude. El editor marca.",
+      intro: "Mail corto. La fecha nueva va al inicio. El CTA pide confirmar si le sirve el nuevo horario.",
     },
   },
-  close: {
-    tip: "si no lo dirías tú, no lo mandes.",
-    items: ["Lee en voz alta", "Cifras y nombres los pones tú", "Un CTA, no tres"],
+  review: {
+    question: "¿Por qué pegar el borrador real?",
+    options: ["Por costumbre", "Porque ChatGPT no abre tu bandeja y rellena los huecos", "Por el tono “pro”"],
+    answer: 1,
+    explain: "El contexto recorta. El “escríbeme un mail” no.",
   },
+  discovery2: "Di qué falló en la segunda versión: muy largo, muy formal, sin CTA. “Mejóralo” no sirve.",
+  closeItems: ["Borrador pegado", "Tono nombrado", "Tú lees en voz alta"],
 });
 
-const flujos = track({
+const flujos = coursivFlow({
   id: "flujos",
-  title: "Flujos de varios pasos",
-  blurb: "Parte, cruza, redacta, revisa. Un chat no es un pipeline si lo mezclas todo.",
-  scene: "meeting",
-  brand: "ChatGPT",
-  hook: [
-    "Pedir “hazme la campaña completa” es un deseo. Un flujo es: extrae hechos → arma mensajes → recorta al canal → revisa vetos. Cada paso con un entregable.",
-    "Si mezclas investigación y copy en el mismo mensaje, las cifras se contaminan de eslogan.",
+  title: "Planear flujos de varios pasos",
+  blurb: "Parte, cruza, redacta, revisa. Un chat no es un pipeline si lo mezclas",
+  brand: B,
+  hero: img("flujos.png"),
+  ui: img("flujos-b.png"),
+  problemImg: q(2),
+  open: [
+    "Coursiv: Planning Multi-Step Workflows. “Hazme el reporte” es un soplo. “1) extrae, 2) cruza, 3) redacta 1 página, 4) lista huecos” es un sistema.",
+    "Numera los pasos. Un entregable por paso. No pidas el ensayo en el paso 1.",
   ],
-  body: {
-    title: "Cuatro estaciones",
-    text: "No pases a la siguiente si la anterior no tiene dueño. ChatGPT no guarda tu tablero: lo pegas tú.",
-  },
-  bullets: [
-    "Hechos (con fuente o “por confirmar”)",
-    "Mensajes (una promesa)",
-    "Piezas (canal y largo)",
-    "Revisión (vetos y nombres)",
-  ],
-  quiz: {
-    question: "¿Por qué no mezclar research y copy en el mismo pedido?",
-    options: [
-      "Porque queda más corto",
-      "Porque el eslogan se come las cifras",
-      "Porque OpenAI lo prohíbe",
-      "Porque se ve feo",
-    ],
+  quiz1: {
+    question: "¿Qué convierte un chat en pipeline?",
+    options: ["Más emojis", "Pasos numerados con un entregable cada uno", "Cambiar de modelo a cada renglón"],
     answer: 1,
-    explain: "Primero hechos. Después frases. Si no, el copy inventa el dato.",
+    explain: "El número obliga a no saltarse el cruce.",
+  },
+  meetTitle: "Cuatro cajas",
+  meetText: "Extrae. Cruza. Redacta. Revisa. Tú pegas la salida de uno como entrada del siguiente si hace falta.",
+  meetList: ["Pasos numerados", "Un entregable por paso", "No mezclar investigación y copy en el mismo soplo", "Revisión al final, no al inicio"],
+  discovery: "El orden es el producto.",
+  exampleTitle: "El recap de la semana",
+  exampleText: "Notas → tabla de hechos → cruce con plazos → página de una cara → huecos al final.",
+  exampleList: ["Extrae", "Cruza", "Redacta", "Revisa nombres y fechas"],
+  exampleImg: img("flujos-b.png"),
+  multi: {
+    question: "¿Qué va en un flujo de varios pasos?",
+    options: ["Un entregable por paso", "Revisión humana al final", "No pedir el ensayo en el paso 1"],
+    answers: [0, 1, 2],
+    explain: "El copy espera al cruce.",
   },
   practice: {
-    title: "Arma el pipeline",
-    lead: "Un paso, un entregable.",
-    template: "Paso 1: {blank}. Paso 2: {blank}. Paso 3: {blank}. No adelantes el copy.",
-    answers: ["extrae 5 hechos con fuente", "elige una promesa", "escribe el post de 120 caracteres"],
-    slots: ["hechos", "promesa", "pieza"],
-    simReply: {
-      intro: "Pipeline listo. Corre un paso por chat si el hilo se ensucia.",
-      sections: [{ title: "Regla", text: "Si un hecho no tiene fuente, no entra al post." }],
-    },
-    review: {
-      question: "¿Qué evita el copy inventado?",
-      options: ["Pedir “sé creativo”", "Separar hechos y frases", "Un modelo más caro"],
-      answer: 1,
-      explain: "El orden. No el precio del modelo.",
-    },
+    title: "Numera el oficio",
+    lead: "Cuatro pasos.",
+    template: "1) {blank}. 2) {blank}. 3) {blank}. 4) lista huecos.",
+    answers: ["extrae la tabla", "cruza con la meta", "redacta una página"],
+    slots: ["p1", "p2", "p3"],
+    simReply: { intro: "Pipeline listo. El copy espera al cruce. Los huecos van al final." },
   },
-  close: {
-    tip: "un paso, un entregable. El deseo no es un flujo.",
-    items: ["Hechos primero", "Copy después", "Revisión al final, con vetos"],
+  review: {
+    question: "¿Por qué no pedir el ensayo en el paso 1?",
+    options: ["Porque queda feo", "Porque aún no cruzaste: el ensayo inventa el hueco", "Por tokens"],
+    answer: 1,
+    explain: "El orden es el producto.",
   },
+  discovery2: "Se guarda el pedido, no el chat de 40 globos.",
+  closeItems: ["Parte", "Cruza", "Redacta", "Revisa"],
 });
 
-const finanzas = track({
+const finanzas = coursivFlow({
   id: "finanzas",
-  title: "Números de la casa",
-  blurb: "Unidades, rangos y “por confirmar”. ChatGPT no ve tu banco.",
-  scene: "desk",
-  brand: "ChatGPT",
-  hook: [
-    "Si no pones pesos, días y porcentajes, el modelo mezcla escalas. “Ayúdame con las finanzas” no es un pedido: es una nube.",
-    "Pega la tabla. Di la moneda. Di qué decisión tienes que tomar. El chat no sustituye a un contador.",
+  title: "Organizar finanzas personales",
+  blurb: "Categorías, tope y moneda. No un coach de abundancia",
+  brand: B,
+  hero: img("finanzas.png"),
+  ui: img("finanzas-b.png"),
+  problemImg: q(3),
+  open: [
+    "Coursiv: Organizing Personal Finances. ChatGPT ordena lo que pegas: gastos, categorías, un tope. No abre tu banco.",
+    "Pega cifras en pesos. Di el periodo. Pide tabla, no un sermón.",
   ],
-  body: {
-    title: "Las reglas van antes del caso",
-    text: "“No inventes cifras. Si falta un dato, escribe por confirmar.” Eso vale más que un tono elegante.",
-  },
-  bullets: [
-    "Moneda y periodo",
-    "Qué decisión sale de la tabla",
-    "Veto: no inventar",
-    "Formato: 5 filas, no un ensayo",
-  ],
-  quiz: {
-    question: "¿Dónde van las reglas de “no inventes”?",
-    options: ["Al final, como nota", "Al inicio, antes de la tabla", "En un sticker", "Nunca"],
+  quiz1: {
+    question: "¿ChatGPT ve tu cuenta bancaria?",
+    options: ["Sí, si se lo pides bonito", "No: ordena el recorte que pegas", "Solo en Plus"],
     answer: 1,
-    explain: "Si van al final, el modelo ya rellenó un número.",
+    explain: "Tú pegas. Él tabula. Tú firmas el recorte.",
+  },
+  meetTitle: "Un corte que se puede tachar",
+  meetText: "Categoría, monto, tope, qué recortar. Unidades en MXN. Periodo visible.",
+  meetList: ["Periodo (marzo 2026)", "Moneda", "Topes", "Sin sermón de hábitos"],
+  discovery: "La tabla se trabaja. El coach de abundancia no paga el termo.",
+  exampleTitle: "El corte de marzo",
+  exampleText: "Comida 4 200, transporte 1 100, tope de ocio 800. ¿Qué se pasa?",
+  exampleList: ["Pegar los tres números", "Pedir tabla vs tope", "Una recomendación recortable"],
+  exampleImg: img("finanzas-b.png"),
+  multi: {
+    question: "¿Qué pegas para un corte útil?",
+    options: ["Cifras con moneda", "El periodo", "Topes, no “gasta menos”"],
+    answers: [0, 1, 2],
+    explain: "Se puede decidir. El consejo genérico no.",
   },
   practice: {
-    title: "Tabla con unidades",
-    lead: "Pesos, no “unidades mágicas”.",
-    template: "Calcula en {blank}. Muestra {blank}. Si falta un dato, {blank}.",
-    answers: ["pesos MXN", "pasos", "pon por confirmar"],
-    slots: ["moneda", "formato", "hueco"],
-    simReply: {
-      intro: "Tres filas. El IVA quedó como por confirmar: no estaba en tu pegado.",
-      sections: [{ title: "Decisión", text: "¿Subes el combo 8%? Falta el costo real del insumo." }],
-    },
-    review: {
-      question: "¿Por qué “por confirmar” es parte del pedido?",
-      options: ["Queda cute", "Impide que fabrique un IVA", "Es más largo"],
-      answer: 1,
-      explain: "El hueco honesto. El número lindo mentiroso no.",
-    },
+    title: "El corte del mes",
+    lead: "Cifras. Topes. Tabla.",
+    template: "Periodo {blank}. Gastos en {blank}. Tabla vs tope y dime {blank}.",
+    answers: ["marzo 2026", "pesos MXN", "qué categoría se pasó"],
+    slots: ["cuándo", "moneda", "pregunta"],
+    simReply: { intro: "Ocio 1 050 vs tope 800. Comida bajo tope. Una fila roja, no un discurso." },
   },
-  close: {
-    tip: "di las unidades. Si no, mezcla escalas.",
-    items: ["Pega la tabla", "Veto de cifras al inicio", "Tú firmas el número"],
+  review: {
+    question: "¿Por qué no “ayúdame con mi dinero”?",
+    options: ["Queda grosero", "Porque no hay cifras ni periodo: el modelo sermonea", "Por el banco"],
+    answer: 1,
+    explain: "Sin recorte, hay coach. Con recorte, hay tabla.",
   },
+  discovery2: "Tú pegas. ChatGPT ordena. El movimiento lo decides tú.",
+  closeItems: ["Cifras pegadas", "Topes", "Tabla, no sermón"],
 });
 
-const creativo = track({
+const creativo = coursivFlow({
   id: "creativo",
-  title: "Una idea que se puede producir",
-  blurb: "Divergir con reglas. Luego elegir. Treinta estilos es ruido.",
-  scene: "camera",
-  brand: "ChatGPT",
-  hook: [
-    "“Dame ideas creativas” es un pozo. “Tres conceptos para un termo mate, público de combi, presupuesto chico, sin mascota animada” se puede filmar, escribir o diseñar.",
-    "Primero cantidad con límites. Después una ficha: qué es, para quién, qué no es.",
+  title: "Hacer realidad ideas creativas",
+  blurb: "Divergir con reglas y luego elegir. No 40 conceptos sin filtro",
+  brand: B,
+  hero: img("creativo.png"),
+  ui: img("creativo-b.png"),
+  problemImg: q(4),
+  open: [
+    "Coursiv: Realizing Creative Ideas. “Dame ideas” es niebla. “8 conceptos para un reel de 15 s del termo, empieza en 2 minutos, sin clichés motivational” sí.",
+    "Primero diverges. Luego pides que elija 2 con criterio. Tú publicas uno.",
   ],
-  body: {
-    title: "Tres, no treinta",
-    text: "Pide 3 conceptos con la misma restricción. Eliges uno. El resto se archiva o se tira.",
-  },
-  bullets: [
-    "Restricción (canal, presupuesto, veto)",
-    "Tres conceptos",
-    "Una ficha del ganador",
-    "Siguiente pieza: copy o imagen, no las dos mezcladas",
-  ],
-  quiz: {
-    question: "¿Para qué pides tres y no treinta?",
-    options: ["Porque el modelo se cansa", "Para elegir uno y producirlo", "Por moda", "Porque 30 se ve pro"],
+  quiz1: {
+    question: "¿Qué hace útil un pedido creativo?",
+    options: ["Pedir “sé creativo”", "Cantidad, formato, tiempo y un veto de cliché", "Pedir 200 ideas"],
     answer: 1,
-    explain: "El resto es ruido. Un concepto se produce.",
+    explain: "Reglas. Luego se elige.",
+  },
+  meetTitle: "Divergir, luego elegir",
+  meetText: "Un número de ideas. Un formato. Un veto. Después: “elige 2 y di por qué”.",
+  meetList: ["Cantidad (8, no 80)", "Formato (reel 15 s)", "Veto de cliché", "Tú eliges el que se rueda"],
+  discovery: "La creatividad con techo se puede producir. La infinita no llega al set.",
+  exampleTitle: "Ocho reels, uno se rueda",
+  exampleText: "15 segundos. Empieza en 2 minutos. Sin “vive tu mejor versión”.",
+  exampleList: ["8 conceptos", "Filtro: se puede grabar en tienda", "Elige 2 con criterio"],
+  exampleImg: img("creativo.png"),
+  multi: {
+    question: "¿Qué recorta un brief creativo?",
+    options: ["Un número de ideas", "Un formato y un tiempo", "Un veto de cliché"],
+    answers: [0, 1, 2],
+    explain: "Se puede rodar. El moodboard infinito no.",
   },
   practice: {
-    title: "Tres conceptos con veto",
-    lead: "Misma restricción. Distinto ángulo.",
-    template: "Dame {blank} conceptos para {blank}. Veto: {blank}. Ficha: qué / para quién / qué no es.",
-    answers: ["3", "un termo mate en Instagram", "mascota animada y urgencia falsa"],
-    slots: ["cantidad", "producto", "veto"],
-    simReply: {
-      intro: "Tres fichas. El 2 se puede producir esta semana.",
-      sections: [
-        { title: "Concepto 2", text: "El termo que no suda en la combi. Foto real, 120 caracteres, cero mascota." },
-      ],
-    },
-    review: {
-      question: "¿Qué hace producible un concepto?",
-      options: ["Que sea “wow”", "Restricción, veto y una ficha clara", "Que tenga 30 variaciones"],
-      answer: 1,
-      explain: "Se puede hacer. El wow no se filma.",
-    },
+    title: "El brief del reel",
+    lead: "Cantidad, formato, veto.",
+    template: "Dame {blank} para {blank}. Empieza en 2 minutos. Veta {blank}. Luego elige 2 y di por qué.",
+    answers: ["8 conceptos", "un reel de 15 segundos", "clichés de motivational"],
+    slots: ["cuántos", "formato", "veto"],
+    simReply: { intro: "Ocho. Dos se pueden grabar en el mostrador. El motivational no pasó el veto." },
   },
-  close: {
-    tip: "tres variaciones del mismo concepto, no treinta estilos.",
-    items: ["Reglas primero", "Eliges uno", "Luego copy o imagen, no todo junto"],
+  review: {
+    question: "¿Quién publica el reel?",
+    options: ["ChatGPT", "Tú, después de elegir", "El intern automático"],
+    answer: 1,
+    explain: "El chat diverge. Tú ruedas.",
   },
+  discovery2: "Primero cantidad. Luego criterio. Luego una cámara.",
+  closeItems: ["Techo de ideas", "Veto de cliché", "Tú eliges"],
 });
 
-const eventos = track({
+const eventos = coursivFlow({
   id: "eventos",
   title: "Planear un evento sin caos",
-  blurb: "Fecha, aforo, presupuesto y dueños. No un moodboard de “experiencia inolvidable”.",
-  scene: "meeting",
-  brand: "ChatGPT",
-  hook: [
+  blurb: "Fecha, aforo, presupuesto y dueños. No un moodboard de “experiencia inolvidable”",
+  brand: B,
+  hero: img("eventos.png"),
+  ui: img("eventos-b.png"),
+  problemImg: q(1),
+  trophy: true,
+  open: [
     "Coursiv usa el evento como prueba de pedidos de varios pasos: no “arma un lanzamiento wow”. Pide agenda, checklist de compras y un mail a invitados, con números que tú pegas.",
     "Si no hay fecha ni presupuesto, inventa un rooftop que no puedes pagar. Tú pones el techo; el chat ordena.",
   ],
-  body: {
-    title: "Tres entregables, un solo hilo",
-    text: "1) Timeline de 10 días. 2) Lista de compras con tope. 3) Mail de confirmación. Si mezclas los tres en un párrafo, no se puede asignar.",
-  },
-  bullets: [
-    "Fecha, lugar y aforo reales",
-    "Presupuesto tope en MXN",
-    "Dueño por pendiente",
-    "Mail con un CTA, no un manifiesto",
-  ],
-  quiz: {
+  quiz1: {
     question: "¿Qué le pegas primero para un evento?",
-    options: [
-      "“Hazlo viral e inolvidable”",
-      "Fecha, aforo y tope de presupuesto",
-      "Un Pinterest de globos",
-    ],
+    options: ["“Hazlo viral e inolvidable”", "Fecha, aforo y tope de presupuesto", "Un Pinterest de globos"],
     answer: 1,
     explain: "Números. El wow no se agenda.",
+  },
+  meetTitle: "Tres entregables, un solo hilo",
+  meetText: "1) Timeline de 10 días. 2) Lista de compras con tope. 3) Mail de confirmación. Si mezclas los tres en un párrafo, no se puede asignar.",
+  meetList: ["Fecha, lugar y aforo reales", "Presupuesto tope en MXN", "Dueño por pendiente", "Mail con un CTA, no un manifiesto"],
+  discovery: "Fecha, aforo y tope. El chat ordena. Tú firmas el local.",
+  exampleTitle: "El lanzamiento del viernes",
+  exampleText: "40 personas. Tope 8 000 MXN. Tres cajas, luego el mail.",
+  exampleList: ["Timeline", "Compras bajo tope", "Mail con CTA de confirmar"],
+  exampleImg: img("eventos.png"),
+  multi: {
+    question: "¿Qué hace asignable un plan de evento?",
+    options: ["Números pegados", "Tres entregables separados", "Dueños, no un ladrillo"],
+    answers: [0, 1, 2],
+    explain: "El equipo puede repartir. El ensayo wow no.",
   },
   practice: {
     title: "Encargo del lanzamiento",
@@ -673,19 +762,18 @@ const eventos = track({
     answers: ["viernes 7 pm", "8000", "un CTA de confirmar"],
     slots: ["cuándo", "presupuesto", "mail"],
     simReply: {
-      intro: "Timeline de 10 días. Compras bajo 8 000. El mail pide confirmar asistencia, no “únete a la magia”.",
-    },
-    review: {
-      question: "¿Por qué no un solo ensayo de 2.000 palabras?",
-      options: ["Queda feo", "El equipo no puede asignar dueños ni compras", "Por tokens"],
-      answer: 1,
-      explain: "Tres entregables. Un ladrillo no se reparte.",
+      intro: "Timeline de 10 días. Compras bajo 8 000. El mail pide confirmar asistencia, no “únete a la magia”.",
     },
   },
-  close: {
-    tip: "fecha, aforo y tope. El chat ordena. Tú firmas el local.",
-    items: ["Números pegados", "Tres entregables", "Un CTA en el mail"],
+  review: {
+    question: "¿Por qué no un solo ensayo de 2.000 palabras?",
+    options: ["Queda feo", "El equipo no puede asignar dueños ni compras", "Por tokens"],
+    answer: 1,
+    explain: "Tres entregables. Un ladrillo no se reparte.",
   },
+  discovery2:
+    "Ya tienes el trío del día a día, modos, imágenes, Projects, GPTs, recaps, research, marketing, mails, pipelines, finanzas, ideas y un evento con números. Eso es ChatGPT para el día a día, al ritmo de Coursiv: una idea por clic, una tarea en el workspace, tú firmas.",
+  closeItems: ["Números pegados", "Tres entregables", "Un CTA en el mail"],
 });
 
 export const chatgptUnits = [

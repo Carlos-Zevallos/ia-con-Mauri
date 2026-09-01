@@ -1483,10 +1483,86 @@ img {
   font-size: 15px;
 }
 
+.fill-lead-hl {
+  color: #19aa32;
+  font-weight: 800;
+}
+
+.ws-brand-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ws-brand-row .ai-icon {
+  flex-shrink: 0;
+}
+
+.ws-ai-mark {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ws-user-prompt {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.sim-section {
+  margin: 10px 0 0;
+}
+
+.sim-h,
+.sim-section strong {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 800;
+  color: #111;
+  font-size: 15px;
+}
+
+.ws-text-result .sim-line {
+  margin: 0 0 8px;
+}
+
+.ws-text-result .sim-line strong {
+  display: inline;
+  margin: 0;
+  font-weight: 800;
+}
+
+.sim-dashes {
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.sim-dashes li {
+  padding-left: 0;
+  margin: 2px 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #111;
+}
+
+.sim-dashes li::before {
+  content: "— ";
+}
+
+.fill-wrong.almost .fill-wrong-icon {
+  background: #fff4cc;
+  color: #d97706;
+}
+
+.fill-wrong.almost strong {
+  color: #111;
+}
+
 .workspace-card {
   border: 2px solid #c6f06c;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: visible;
   margin: 8px 0 16px;
   background: #fff;
 }
@@ -1496,6 +1572,8 @@ img {
   padding: 8px 14px;
   font-size: 13px;
   font-weight: 700;
+  color: #1b3d0b;
+  border-radius: 14px 14px 0 0;
 }
 
 .workspace-brand {
@@ -1521,7 +1599,7 @@ img {
 
 .ws-slot {
   display: inline;
-  margin: 0 4px;
+  margin: 0 3px;
   padding: 2px 8px;
   border: none;
   border-radius: 8px;
@@ -1535,7 +1613,7 @@ img {
 
 .ws-slot.filled {
   background: #ecebff;
-  color: var(--text-primary);
+  color: #3d3a6b;
 }
 
 .ws-slot:disabled {
@@ -1581,6 +1659,7 @@ img {
 
 .ws-out {
   min-width: 0;
+  flex: 1;
 }
 
 .ws-result-img {
@@ -1615,17 +1694,25 @@ img {
 }
 
 .ws-text-result {
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .ws-text-result p,
-.ws-text-result .sim-section {
+.ws-text-result .sim-section,
+.ws-text-result .sim-h {
   padding: 0;
   margin: 0 0 8px;
 }
 
-.sim-section ul {
-  margin: 6px 0 0 18px;
+.sim-section ul,
+.ws-text-result .sim-dashes {
+  margin: 0 0 10px;
+  padding: 0;
 }
 
 .done-banner {
@@ -2546,6 +2633,57 @@ img {
   background: var(--color-grey-100);
   border-radius: 999px;
   padding: 4px 8px;
+}
+
+.practice-routes-scroll {
+  align-items: stretch;
+  padding-bottom: 4px;
+}
+
+.practice-route-card {
+  min-width: 220px;
+  width: 220px;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.practice-route-card .cover-art {
+  height: 92px !important;
+}
+
+.practice-route-body {
+  padding: 10px 12px 12px;
+}
+
+.practice-route-title {
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.practice-route-meta {
+  font-size: 12px;
+  margin: 4px 0 8px;
+}
+
+.practice-route-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.practice-route-tags span {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-grey-600);
+  background: var(--color-grey-100);
+  border-radius: 999px;
+  padding: 3px 7px;
 }
 
 .prompts-lib-head {
@@ -3721,3 +3859,212 @@ img {
     transform: none;
   }
 }
+
+.glossary-term {
+  font-style: normal;
+  text-decoration: underline dashed #7c6cff;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+.lesson-stack-item + .lesson-stack-item {
+  margin-top: 18px;
+}
+
+.ds-cost-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 18px;
+  height: 160px;
+  margin: 8px 0 18px;
+}
+
+.ds-cost-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  height: 100%;
+}
+
+.ds-cost-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #4f6ef7;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.ds-cost-bar {
+  width: 36px;
+  border-radius: 8px 8px 4px 4px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ds-cost-bar-blue {
+  height: 42px;
+  background: #8bb4ff;
+}
+
+.ds-cost-bar-red {
+  background: #ef5350;
+}
+
+.ds-use-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 280px;
+  margin: 12px auto 8px;
+}
+
+.ds-use-cell {
+  height: 88px;
+  border-radius: 16px;
+  background: #f3f5f8;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #5b6472;
+}
+
+.ds-use-mark {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #4f6ef7;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(79, 110, 247, 0.35);
+}
+
+.ds-mock {
+  border: 1px solid #e6e8ee;
+  border-radius: 16px;
+  padding: 14px;
+  margin: 10px 0 16px;
+  background: #fff;
+}
+
+.ds-mock-head {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.ds-mock-ok {
+  color: #2f80ed;
+}
+
+.ds-mock-pills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.ds-pill {
+  border: 1px solid #d9dce3;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ds-pill.on {
+  border-color: #c9b8ff;
+  background: #f6f2ff;
+  color: #5b5fff;
+}
+
+.ds-mock-box {
+  border: 1px solid #eceef2;
+  border-radius: 12px;
+  padding: 12px;
+  color: #98a0ad;
+  font-size: 14px;
+}
+
+.ds-mock-toggles {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ds-mock-toggles.big {
+  margin: 0 0 10px;
+}
+
+.ds-tog {
+  border: 1px solid #f0b8b8;
+  color: #c0392b;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ds-tog.blue {
+  border-color: #b9d4ff;
+  color: #2f80ed;
+}
+
+.ds-tog.on {
+  background: #fff5f5;
+}
+
+.ds-math {
+  border: 1px solid #eceef2;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 8px 0 14px;
+  background: #fafbff;
+}
+
+.ds-math-brand {
+  margin: 12px 0 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: #4f6ef7;
+}
+
+.ds-keypoints {
+  background: #f3f5f8;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-top: 8px;
+}
+
+.ds-keypoints-title {
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.ds-keypoints ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.fill-page .lesson-top .close-x:last-child {
+  opacity: 0.35;
+}
+

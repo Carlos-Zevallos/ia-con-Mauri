@@ -585,6 +585,8 @@ export const bonusGuides = [
 const sceneByGuide = {
   chatgpt: "desk",
   claude: "docs",
+  "claude-excel": "docs",
+  "claude-fondo": "docs",
   gemini: "phone",
   deepseek: "code",
   grok: "code",
@@ -596,6 +598,7 @@ const sceneByGuide = {
   midjourney: "camera",
   canva: "phone",
   kling: "camera",
+  omni: "camera",
   lovable: "product",
   diseno: "camera",
 };

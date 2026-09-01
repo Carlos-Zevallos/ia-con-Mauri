@@ -1,4 +1,5 @@
 import { OfficialMark, hasOfficialMark } from "./aiLogos.jsx";
+import { iconIdForGuide } from "../lib/certs.js";
 
 const colors = {
   chatgpt: "#10a37f",
@@ -14,6 +15,7 @@ const colors = {
   midjourney: "#1e293b",
   canva: "#00c4cc",
   kling: "#111827",
+  omni: "#E85D4C",
   lovable: "#1c1917",
   diseno: "#5b5fff",
 };
@@ -21,6 +23,15 @@ const colors = {
 function Glyph({ id }) {
   if (hasOfficialMark(id)) {
     return <OfficialMark id={id} fill="white" />;
+  }
+  if (id === "omni") {
+    return (
+      <g fill="none" stroke="white" strokeWidth="2.2" strokeLinejoin="round">
+        <rect x="7" y="12" width="16" height="12" rx="2" />
+        <path d="M23 16l6-3v10l-6-3" />
+        <circle cx="15" cy="18" r="2.2" fill="white" stroke="none" />
+      </g>
+    );
   }
   if (id === "diseno") {
     return (
@@ -35,7 +46,8 @@ function Glyph({ id }) {
 }
 
 export default function AiIcon({ id, size = 40, plain = false }) {
-  const bg = colors[id] || "#FF5A3C";
+  const resolved = iconIdForGuide(id);
+  const bg = colors[resolved] || colors[id] || "#FF5A3C";
   return (
     <svg
       width={size}
@@ -45,7 +57,7 @@ export default function AiIcon({ id, size = 40, plain = false }) {
       aria-hidden
     >
       {plain ? null : <rect width="36" height="36" rx="10" fill={bg} />}
-      <Glyph id={id} />
+      <Glyph id={resolved} />
     </svg>
   );
 }

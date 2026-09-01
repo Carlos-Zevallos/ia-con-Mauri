@@ -2,7 +2,6 @@ const KEY = "mauri.app.certs";
 const ALPHANUM = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 const GUIDE_ICONS = {
-  omni: "kling",
   "claude-excel": "claude",
   "claude-fondo": "claude",
   "claude-largo": "claude",

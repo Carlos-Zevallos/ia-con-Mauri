@@ -1,36 +1,12 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarDays, Library, Zap } from "lucide-react";
-import { challenges, flattenLessons, industryGuides, lessonGuides } from "../data.js";
+import { challenges, exploreLessonCatalog, flattenLessons, industryGuides, lessonGuides } from "../data.js";
 import { todayFor } from "../data/daily.js";
 import { useStore } from "../store.jsx";
 import { lessonKey } from "../lib/progress.js";
 import CoverArt from "../components/CoverArt.jsx";
 import AiIcon from "../components/AiIcon.jsx";
 import LessonScene from "../components/LessonScene.jsx";
-
-function GuideMini({ guide }) {
-  return (
-    <Link
-      to={`/guides/${guide.id}`}
-      className="card"
-      style={{ minWidth: 168, width: 168, flexShrink: 0 }}
-    >
-      <CoverArt id={guide.id} size="sm" />
-      <div style={{ padding: 12 }}>
-            <div style={{ fontWeight: 800, display: "flex", alignItems: "center", gap: 6 }}>
-              <AiIcon id={guide.id} size={22} />
-              {guide.title}
-            </div>
-        <div className="muted" style={{ fontSize: 12, marginTop: 2 }}>
-          {guide.subtitle}
-        </div>
-        <div className="progress-bar" style={{ marginTop: 10 }}>
-          <span style={{ width: `${guide.progress}%` }} />
-        </div>
-      </div>
-    </Link>
-  );
-}
 
 export default function Home() {
   const { user, paid, isRoot, isDone } = useStore();
@@ -173,13 +149,32 @@ export default function Home() {
           <h2 className="section-title" style={{ fontSize: 18, margin: 0 }}>
             Rutas para practicar
           </h2>
-          <Link to="/guides" className="link" style={{ fontSize: 14, fontWeight: 800 }}>
+          <Link to="/explore-ai-tools" className="link" style={{ fontSize: 14, fontWeight: 800 }}>
             Ver todos
           </Link>
         </div>
-        <div className="hscroll">
-          {lessonGuides.map((g) => (
-            <GuideMini key={g.id} guide={g} />
+        <div className="hscroll practice-routes-scroll">
+          {exploreLessonCatalog.map((item) => (
+            <Link key={item.id} to={item.to} className="card practice-route-card">
+              <CoverArt id={item.coverId} size="sm" />
+              <div className="practice-route-body">
+                <div className="practice-route-title">
+                  <AiIcon id={item.coverId} size={18} />
+                  {item.title}
+                </div>
+                <p className="muted practice-route-meta">
+                  {item.lessons} lecciones · {item.hours} h
+                </p>
+                <div className="progress-bar">
+                  <span style={{ width: `${item.progress}%` }} />
+                </div>
+                <div className="practice-route-tags">
+                  {item.tags.slice(0, 2).map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
